@@ -271,10 +271,12 @@ export default {
   },
   watch: {
     select (val) {
+      console.log('select changed item', val)
       this.selectWidget = val
     },
     selectWidget: {
       handler (val) {
+        console.log('update select item', val)
         this.$emit('update:select', val)
       },
       deep: true
