@@ -14,9 +14,9 @@
                            @start="handleMoveStart"
                            :move="handleMove"
                 >
-                  <template v-for="(item, index) in basicComponents">
+                  <template v-for="(item) in basicComponents">
                     <li v-if="basicFields.indexOf(item.type)>=0" class="form-edit-widget-label"
-                        :class="{'no-put': item.type == 'divider'}" :key="index">
+                        :class="{'no-put': item.type == 'divider'}" :key="item.type">
                       <a>
                         <i class="icon iconfont" :class="item.icon"></i>
                         <span>{{ item.name }}</span>
@@ -33,9 +33,9 @@
                            @start="handleMoveStart"
                            :move="handleMove"
                 >
-                  <template v-for="(item, index) in advanceComponents">
+                  <template v-for="(item) in advanceComponents">
                     <li v-if="advanceFields.indexOf(item.type) >= 0" class="form-edit-widget-label"
-                        :class="{'no-put': item.type == 'table'}" :key="index">
+                        :class="{'no-put': item.type == 'table'}" :key="item.type">
                       <a>
                         <i class="icon iconfont" :class="item.icon"></i>
                         <span>{{ item.name }}</span>
@@ -54,9 +54,9 @@
                            @start="handleMoveStart"
                            :move="handleMove"
                 >
-                  <template v-for="(item, index) in layoutComponents">
+                  <template v-for="(item) in layoutComponents">
                     <li v-if="layoutFields.indexOf(item.type) >=0"
-                        class="form-edit-widget-label no-put" :key="index">
+                        class="form-edit-widget-label no-put" :key="item.type">
                       <a>
                         <i class="icon iconfont" :class="item.icon"></i>
                         <span>{{ item.name }}</span>
