@@ -307,10 +307,36 @@ export const advanceComponents = [
       width: "",
       validatorCheck: false,
       validator: "",
-      remoteFunc: "func_9xxlpj77",
-      remoteOption: "option_9xxlpj77",
+      remoteFunc: "",
+      remoteOption: "",
       tableColumn: false,
       subform: false,
+      hideLabel: false
+    },
+  },
+  {
+    type: "subform",
+    icon: "icon-diy-com-textarea",
+    columns: [
+      {
+        span: 24,
+        list: []
+      }
+    ],
+    options: {
+      defaultValue: {},
+      customClass: "",
+      labelWidth: 100,
+      isLabelWidth: false,
+      hidden: false,
+      dataBind: true,
+      width: "",
+      validatorCheck: false,
+      validator: "",
+      remoteFunc: "",
+      remoteOption: "",
+      tableColumn: false,
+      subform: true,
       hideLabel: false
     },
   }

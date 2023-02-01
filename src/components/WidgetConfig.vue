@@ -353,7 +353,6 @@ export default {
   components: {
     Draggable
   },
-  props: ['data'],
   data () {
     return {
       validator: {
@@ -366,6 +365,9 @@ export default {
     }
   },
   computed: {
+    data() {
+      return this.$store.state.selectWidget
+    },
     show () {
       if (this.data && Object.keys(this.data).length > 0) {
         return true

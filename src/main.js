@@ -9,9 +9,15 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import enLocale from 'element-ui/lib/locale/lang/en'
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+import mixin from '@/mixin'
+import store from '@/store'
+// import 'form-making/dist/FormMaking.css'
+// import FormMaking from 'form-making'
+import FormMaking from './index'
 
 Vue.use(VueI18n)
 Vue.use(VueEditor)
+Vue.mixin(mixin)
 
 const messages = {
   'en-US': {
@@ -43,14 +49,11 @@ const i18n = new VueI18n({
   }
 })
 
-Vue.use(ElementUI, { 
+Vue.use(ElementUI, {
   size: 'small',
   i18n: (key, value) => i18n.t(key, value)
 })
 
-// import 'form-making/dist/FormMaking.css'
-// import FormMaking from 'form-making'
-import FormMaking from './index'
 Vue.use(FormMaking, {
   i18n
 })
@@ -60,5 +63,6 @@ Vue.config.productionTip = false
 new Vue({
   i18n,
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

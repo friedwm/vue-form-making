@@ -31,3 +31,8 @@ export const generateUUID = () => {
   });
   return uuid;
 }
+
+export const genUniqKey = () => {
+  const key = Date.parse(new Date()) + '_' + Math.ceil(Math.random() * 99999)
+  return key
+}

@@ -24,7 +24,8 @@ export default {
         grid: 'Grid',
         tabs: 'Tabs',
         divider: 'Divider',
-        group: 'Group'
+        group: 'Group',
+        subform: 'SubForm'
       },
       basic: {
         title: 'Basic Component',

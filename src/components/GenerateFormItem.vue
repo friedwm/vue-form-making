@@ -248,6 +248,7 @@ export default {
       deep: true,
       handler (val) {
         this.models[this.widget.model] = val
+        console.log('watch dataModel change, update into Models')
         this.$emit('update:models', {
           ...this.models,
           [this.widget.model]: val
@@ -258,6 +259,7 @@ export default {
     models: {
       deep: true,
       handler (val) {
+        console.log('watch models change update into dataModel')
         this.dataModel = val[this.widget.model]
       }
     }
