@@ -15,12 +15,14 @@ export default {
       console.log('before widgetAdded', JSON.stringify(list), evt);
       let newIndex = evt.newIndex
       let key = genUniqKey()
-      let widgetType = list[newIndex].type;
-      console.log('newAdded element', key, widgetType, list[newIndex], evt.newIndex, list.length)
+      let idx = list.findIndex(e=>!e.key)
+      let added = list.splice(idx, 1)[0]
+      let widgetType = list.type;
+      console.log('newAdded element', key, widgetType, added, evt.newIndex, list.length)
       this.$set(list, newIndex, {
-        ...list[newIndex],
+        ...added,
         options: {
-          ...list[newIndex].options,
+          ...added.options,
           remoteFunc: 'func_' + key
         },
         key,

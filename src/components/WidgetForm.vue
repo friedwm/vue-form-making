@@ -8,12 +8,12 @@
              :label-width="data.config.labelWidth + 'px'">
 
       <draggable class="widget-form-draggable"
-                 v-model="data.list"
+                 :list="data.list"
                  v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
                  @add="(evt)=>widgetAdded(data.list, evt)"
       >
         <transition-group name="fade" tag="div" class="widget-form-list">
-          <widget-form-item v-for="(element, index) in data.list"
+          <widget-form-item v-for="(element, index) of data.list"
                             :element="element"
                             :index="index"
                             v-if="initialized(element)"

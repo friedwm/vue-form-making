@@ -10,7 +10,7 @@
             :span="col.span ? col.span : 0">
 
       <draggable
-          v-model="col.list"
+          :list="col.list"
           :no-transition-on-drag="true"
           v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
           @add="(evt)=>widgetAdded(col.list, evt)"
