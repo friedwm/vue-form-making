@@ -1,15 +1,18 @@
 $primary-color: #409EFF;
 $primary-background-color: #ecf5ff;
 
+// 根样式
 .fm-style {
   height: 100%;
 
+  // 盒模型：border-box
   *, :after, :before {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
   }
 
+  // font-awesome样式
   .fa-icon {
     width: auto;
     height: 1em; /* 或任意其它字体大小相对值 */
@@ -20,6 +23,7 @@ $primary-background-color: #ecf5ff;
     vertical-align: middle;
   }
 
+  // 定义外层容器
   .fm2-container {
     background: #fff;
     height: 100%;
@@ -64,6 +68,7 @@ $primary-background-color: #ecf5ff;
     }
   }
 
+  // 定义中间容器
   .center-container {
     border-left: 1px solid #e0e0e0;
     border-right: 1px solid #e0e0e0;
@@ -83,6 +88,7 @@ $primary-background-color: #ecf5ff;
     }
   }
 
+  // 定义左侧的组件列表
   .components-list {
     padding: 8px 0;
     width: 100%;
@@ -142,6 +148,7 @@ $primary-background-color: #ecf5ff;
     }
   }
 
+  // 定义挂件表单容器
   .widget-form-container {
     position: absolute;
     top: 0;
@@ -149,7 +156,7 @@ $primary-background-color: #ecf5ff;
     right: 0;
     bottom: 0;
 
-    // 挂件表单的最小大小
+    // 挂件表单列表
     .widget-form-list {
       background: #fff;
       // border: 1px dashed #999;
@@ -164,8 +171,9 @@ $primary-background-color: #ecf5ff;
         background: #fff;
       }
 
+      // 单个挂件
       .widget-view {
-        padding-bottom: 18px;
+        padding-bottom: 15px;
         position: relative;
         border: 1px dashed rgba(170, 170, 170, 0.7);
         background-color: rgba(236, 245, 255, .3);
@@ -228,7 +236,8 @@ $primary-background-color: #ecf5ff;
           }
         }
 
-        &:after {
+        // 收集点击事件
+        &::after {
           position: absolute;
           left: 0;
           right: 0;
@@ -240,11 +249,9 @@ $primary-background-color: #ecf5ff;
         &:hover {
           background: $primary-background-color;
           outline: 1px solid $primary-color;
-          outline-offset: 0px;
+          outline-offset: 0;
 
           &.active {
-            outline: 2px solid $primary-color;
-            border: 1px solid $primary-color;
             outline-offset: 0;
           }
 
@@ -527,8 +534,8 @@ $primary-background-color: #ecf5ff;
       }
 
       .widget-col {
-        padding-bottom: 0;
         padding: 5px;
+        padding-bottom: 0;
         // margin-left: 2px !important;
         // margin-right: 2px !important;
         background-color: rgba(253, 246, 236, .3);
@@ -603,9 +610,9 @@ $primary-background-color: #ecf5ff;
     }
 
     li.ghost {
-      height: 5px;
-      list-style: none;
-      font-size: 0;
+      height: 15px;
+      list-style: circle;
+      font-size: 10px;
       overflow: hidden;
     }
 
@@ -654,6 +661,7 @@ $primary-background-color: #ecf5ff;
     }
   }
 
+  // 定义挂件配置容器
   .widget-config-container {
     position: relative;
 
@@ -727,10 +735,12 @@ $primary-background-color: #ecf5ff;
     }
   }
 
+  // 定义预览容器
   .viewer-container {
     z-index: 99999 !important;
   }
 
+  // 定义表单空
   .form-empty {
     position: absolute;
     text-align: center;
@@ -742,6 +752,7 @@ $primary-background-color: #ecf5ff;
     color: #ccc;
   }
 
+  // 定义挂件表单空
   .widget-empty {
     background-position: 50%;
   }
