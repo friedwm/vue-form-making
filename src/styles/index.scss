@@ -173,7 +173,7 @@ $primary-background-color: #ecf5ff;
 
       // 单个挂件
       .widget-view {
-        padding-bottom: 15px;
+        padding-bottom: 5px;
         position: relative;
         border: 1px dashed rgba(170, 170, 170, 0.7);
         background-color: rgba(236, 245, 255, .3);
@@ -581,6 +581,7 @@ $primary-background-color: #ecf5ff;
           background: #e6a23c;
         }
 
+        //TODO
         &::after {
           display: none;
         }

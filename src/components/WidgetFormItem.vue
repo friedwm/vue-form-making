@@ -1,6 +1,6 @@
 <template>
   <!--  可以拖拽的元素-->
-  <div class="widget-view" :class="{active: isSelected(element)}" @click.native.stop="setSelected(element)">
+  <div class="widget-view" :class="{active: isSelected(element)}" @click.stop="setSelected(element)">
     <!--    grid, group, subform-->
     <template v-if="isCompound(element)">
       <el-form-item class="widget-col"
