@@ -149,7 +149,7 @@ $primary-background-color: #ecf5ff;
     right: 0;
     bottom: 0;
 
-
+    // 挂件表单的最小大小
     .widget-form-list {
       background: #fff;
       // border: 1px dashed #999;
@@ -157,6 +157,7 @@ $primary-background-color: #ecf5ff;
       min-height: 600px;
       margin: 10px;
 
+      // 放置在transition-group上撑开draggable，使得可以拖进去
       .widget-col-list {
         min-height: 50px;
         border: 1px dashed #ccc;

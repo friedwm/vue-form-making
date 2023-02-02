@@ -17,14 +17,12 @@
       >
         <transition-group name="fade" tag="div" class="widget-col-list">
           <widget-form-item v-for="(el, i) in col.list"
-                            :key="el.key"
-                            v-if="el.key"
+                            :key="i"
                             :element="el"
                             :index="i"
                             :data="col">
           </widget-form-item>
         </transition-group>
-
       </draggable>
     </el-col>
   </el-row>

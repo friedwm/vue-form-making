@@ -1,7 +1,10 @@
 import {genUniqKey} from '@/util/index'
-
+import {cloneDeep} from 'lodash'
 export default {
   methods: {
+    cloneDeep(obj) {
+      return cloneDeep(obj)
+    },
     setSelected(element) {
       this.$store.commit('setSelectWidget', element)
     },
@@ -12,50 +15,48 @@ export default {
       return element.key === this.$store.state.selectWidget.key
     },
     widgetAdded(list, evt) {
-      console.log('before widgetAdded', JSON.stringify(list), evt);
+      console.log('before widgetAdded', JSON.stringify(list), evt, evt.oldIndex, evt.newIndex, evt.oldDraggableIndex, evt.newDraggableIndex);
       let newIndex = evt.newIndex
       let key = genUniqKey()
-      let idx = list.findIndex(e=>!e.key)
-      let added = list.splice(idx, 1)[0]
-      let widgetType = list.type;
-      console.log('newAdded element', key, widgetType, added, evt.newIndex, list.length)
-      this.$set(list, newIndex, {
-        ...added,
+      let widgetType = list[newIndex].type;
+      let newObj = cloneDeep(list[newIndex])
+      newObj = {
+        ...newObj,
         options: {
-          ...added.options,
           remoteFunc: 'func_' + key
         },
         key,
         // 绑定键值
         model: widgetType + '_' + key,
         rules: []
-      })
+      }
 
-      // 为radio, checkbox, select初始化特定配置项options
-      if (widgetType === 'radio' || widgetType === 'checkbox' || widgetType
+      /*if (widgetType === 'radio' || widgetType === 'checkbox' || widgetType
           === 'select') {
-        this.$set(list, newIndex, {
-          ...list[newIndex],
+        newObj = {
+          ...newObj,
           options: {
-            ...list[newIndex].options,
-            options: list[newIndex].options.options.map(item => ({
+            ...newObj.options,
+            options: newObj.options.options.map(item => ({
               ...item
             }))
           }
-        })
+        }
       }
 
       // 为grid初始化特定配置项columns
       if (widgetType === 'grid' || widgetType === 'group' || widgetType
           === 'subform') {
-        this.$set(list, newIndex, {
-          ...list[newIndex],
-          columns: list[newIndex].columns.map(item => ({...item}))
-        })
-      }
+        newObj = {
+          ...newObj,
+          columns: newObj.columns.map(item => ({...item}))
+        }
+      }*/
 
-      this.$store.commit('setSelectWidget', list[newIndex])
-      console.log('initialized element', list[newIndex])
+      this.$set(list, newIndex, newObj)
+
+      this.$store.commit('setSelectWidget', newObj)
+      console.log('initialized element', newObj)
     },
   },
 }

@@ -10,7 +10,7 @@ export const basicComponents = [
       pattern: '',
       placeholder: '',
       disabled: false,
-      maxlength: -1,
+      maxlength: 100,
       showWordLimit: false,
     }
   },
