@@ -1,6 +1,9 @@
 <template>
   <div v-if="show">
     <el-form label-position="top">
+      <el-form-item label="类型">
+        <el-tag effect="plain" size="medium">{{$t('fm.components.fields.' + data.type)}}</el-tag>
+      </el-form-item>
       <el-form-item :label="$t('fm.config.widget.model')" v-if="data.type!='grid'">
         <el-input v-model="data.model"></el-input>
       </el-form-item>

@@ -159,16 +159,20 @@ $primary-background-color: #ecf5ff;
     // 挂件表单列表
     .widget-form-list {
       background: #fff;
-      // border: 1px dashed #999;
       border: 1px dashed #999;
       min-height: 600px;
       margin: 10px;
+
+      .widget-draggable {
+        min-height: 50px;
+      }
 
       // 放置在transition-group上撑开draggable，使得可以拖进去
       .widget-col-list {
         min-height: 50px;
         border: 1px dashed #ccc;
         background: #fff;
+        padding-bottom: 30px;
       }
 
       // 单个挂件
@@ -178,6 +182,10 @@ $primary-background-color: #ecf5ff;
         border: 1px dashed rgba(170, 170, 170, 0.7);
         background-color: rgba(236, 245, 255, .3);
         margin: 2px;
+
+        .el-form-item {
+          margin-bottom: 2px;
+        }
 
         .el-form-item__content {
           position: unset;
@@ -237,14 +245,14 @@ $primary-background-color: #ecf5ff;
         }
 
         // 收集点击事件
-        &::after {
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: 0;
-          bottom: 0;
-          display: block;
-        }
+        //&::after {
+        //  position: absolute;
+        //  left: 0;
+        //  right: 0;
+        //  top: 0;
+        //  bottom: 0;
+        //  display: block;
+        //}
 
         &:hover {
           background: $primary-background-color;
@@ -582,9 +590,9 @@ $primary-background-color: #ecf5ff;
         }
 
         //TODO
-        &::after {
-          display: none;
-        }
+        //&::after {
+        //  display: none;
+        //}
       }
 
       .ghost {

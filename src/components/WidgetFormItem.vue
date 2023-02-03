@@ -3,12 +3,13 @@
   <div class="widget-view" :class="{active: isSelected(element)}" @click.stop="setSelected(element)">
     <!--    grid, group, subform-->
     <template v-if="isCompound(element)">
-      <el-form-item class="widget-col"
+      <el-form-item
                     v-if="initialized(element)"
                     :class="{'is_req': element.options.required}"
                     :label="element.name"
       >
-        <el-row class="widget-col"
+        <el-row
+            class="widget-col-list"
                 type="flex"
                 :gutter="element.options.gutter ? element.options.gutter : 0"
                 :justify="element.options.justify"
@@ -18,19 +19,18 @@
                   :span="col.span ? col.span : 0">
 
             <draggable
+                class="widget-draggable"
                 :list="col.list"
                 :no-transition-on-drag="true"
                 v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
                 @add="(evt)=>widgetAdded(col.list, evt)"
             >
-              <transition-group name="fade" tag="div" class="widget-col-list">
-                <widget-form-item v-for="(el, i) in col.list"
-                                  :key="i"
-                                  :element="el"
-                                  :index="i"
-                                  :data="col">
-                </widget-form-item>
-              </transition-group>
+              <widget-form-item v-for="(el, i) in col.list"
+                                :key="i"
+                                :element="el"
+                                :index="i"
+                                :data="col">
+              </widget-form-item>
             </draggable>
           </el-col>
         </el-row>

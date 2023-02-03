@@ -7,12 +7,12 @@
     <el-form :size="data.config.size" label-suffix=":" :label-position="data.config.labelPosition"
              :label-width="data.config.labelWidth + 'px'">
 
-      <draggable class="widget-form-draggable"
-                 :list="data.list"
-                 v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
-                 @add="(evt)=>widgetAdded(data.list, evt)"
-      >
-        <transition-group name="fade" tag="div" class="widget-form-list">
+      <div class="widget-form-list">
+        <draggable class="widget-draggable"
+                   :list="data.list"
+                   v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
+                   @add="(evt)=>widgetAdded(data.list, evt)"
+        >
           <widget-form-item v-for="(element, index) of data.list"
                             :element="element"
                             :index="index"
@@ -21,8 +21,8 @@
                             :data="data"
                             @click.native.stop="widgetSelected(element)"
           ></widget-form-item>
-        </transition-group>
-      </draggable>
+        </draggable>
+      </div>
     </el-form>
   </div>
 </template>

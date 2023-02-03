@@ -15,11 +15,16 @@ export default {
       return element.key === this.$store.state.selectWidget.key
     },
     widgetAdded(list, evt) {
-      console.log('before widgetAdded', JSON.stringify(list), evt, evt.oldIndex, evt.newIndex, evt.oldDraggableIndex, evt.newDraggableIndex);
+      // console.log('before widgetAdded', JSON.stringify(list), evt, evt.oldIndex, evt.newIndex, evt.oldDraggableIndex, evt.newDraggableIndex);
       let newIndex = evt.newIndex
       let key = genUniqKey()
-      let widgetType = list[newIndex].type;
-      let newObj = cloneDeep(list[newIndex])
+      let element = list[newIndex];
+      if (element.key) {
+        console.log('element has been initialized, skip init', element)
+        return
+      }
+      let widgetType = element.type;
+      let newObj = cloneDeep(element)
       newObj = {
         ...newObj,
         options: {
