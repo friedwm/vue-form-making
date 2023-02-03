@@ -9,17 +9,16 @@
                     :label="element.name"
       >
         <el-row
-            class="widget-col-list"
                 type="flex"
                 :gutter="element.options.gutter ? element.options.gutter : 0"
                 :justify="element.options.justify"
-                :align="element.options.align"
-                @click.native.stop="setSelected(element)">
+                :align="element.options.align">
           <el-col v-for="(col, colIndex) in element.columns" :key="colIndex"
                   :span="col.span ? col.span : 0">
 
             <draggable
                 class="widget-draggable"
+                :class="{empty: col.list.length===0}"
                 :list="col.list"
                 :no-transition-on-drag="true"
                 v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"
@@ -237,10 +236,14 @@
         </template>
       </el-form-item>
     </template>
+    <div class="widget-view-type">
+      {{$t('fm.components.fields.' + element.type)}}
+    </div>
     <!--    操作区-->
-    <div class="widget-view-action widget-col-action"
+    <div class="widget-view-action"
          v-if="selected">
       <i class="iconfont icon-trash" @click.stop="handleWidgetDelete(index)"></i>
+
     </div>
 
     <!--    拖拽区域-->
@@ -271,6 +274,8 @@ export default {
       return ['grid', 'group', 'subform'].indexOf(element.type) !== -1
     },
     handleWidgetDelete(index) {
+
+
       if (this.data.list.length - 1 === index) {
         if (index === 0) {
           this.$store.commit('clearSelectWidget');

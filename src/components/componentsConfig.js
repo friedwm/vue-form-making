@@ -357,7 +357,7 @@ export const layoutComponents = [
       }
     ],
     options: {
-      gutter: 0,
+      gutter: 10,
       justify: 'start',
       align: 'top'
     }

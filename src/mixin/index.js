@@ -28,6 +28,7 @@ export default {
       newObj = {
         ...newObj,
         options: {
+          ...(newObj.options),
           remoteFunc: 'func_' + key
         },
         key,
