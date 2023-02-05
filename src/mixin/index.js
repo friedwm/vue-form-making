@@ -4,11 +4,9 @@ import {cloneDeep} from 'lodash'
 export default {
   methods: {
     enterEle(element) {
-      console.log('enter element', element.key)
       this.$store.commit('addMouseEnterWidgetKey', element.key)
     },
     leaveEle(element) {
-      console.log('leave element', element.key)
       this.$store.commit('delMouseLeaveWidgetKey', element.key)
     },
     cloneDeep(obj) {

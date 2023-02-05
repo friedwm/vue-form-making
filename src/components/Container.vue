@@ -255,7 +255,7 @@ export default {
     },
     advanceFields: {
       type: Array,
-      default: () => ['blank', 'imgupload', 'editor', 'cascader', 'group', 'subform']
+      default: () => ['imgupload', 'editor', 'cascader', 'group', 'subform']
     },
     layoutFields: {
       type: Array,

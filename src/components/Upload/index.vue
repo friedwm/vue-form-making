@@ -47,6 +47,7 @@ import Draggable from 'vuedraggable'
 import * as qiniu from 'qiniu-js'
 require('viewerjs/dist/viewer.css')
 export default {
+  name: 'FmUploader',
   components: {
     Draggable
   },

@@ -12,6 +12,7 @@ export const basicComponents = [
       disabled: false,
       maxlength: 100,
       showWordLimit: false,
+      clearable: true
     }
   },
   {
@@ -24,8 +25,9 @@ export const basicComponents = [
       disabled: false,
       pattern: '',
       placeholder: '',
-      maxlength: -1,
+      maxlength: 300,
       showWordLimit: false,
+      clearable: true
     }
   },
   {
@@ -35,8 +37,8 @@ export const basicComponents = [
       width: '',
       required: false,
       defaultValue: 0,
-      min: '',
-      max: '',
+      min: 0,
+      max: 100,
       step: 1,
       disabled: false,
       controlsPosition: ''

@@ -34,5 +34,5 @@ export const generateUUID = () => {
 
 export const genUniqKey = () => {
   // return new Date().getTime() + '_' + Math.ceil(Math.random() * 99999)
-  return Math.random().toString(36).slice(-8)
+  return Math.random().toString(36).slice(-8).toLowerCase()
 }

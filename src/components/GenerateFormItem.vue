@@ -69,6 +69,7 @@
           :style="{width: widget.options.width}"
           :maxlength="widget.options.maxlength"
           :show-word-limit="widget.options.showWordLimit"
+          :clearable="widget.options.clearable"
       ></el-input>
     </template>
 
@@ -80,6 +81,7 @@
                 :style="{width: widget.options.width}"
                 :maxlength="widget.options.maxlength"
                 :show-word-limit="widget.options.showWordLimit"
+                :clearable="widget.options.clearable"
       ></el-input>
     </template>
 
@@ -277,14 +279,19 @@ export default {
   components: {
     FmUpload
   },
-  data () {
+  data() {
     return {
-      dataModel: '',
+      dataModel: this.widget.type === 'checkbox' ? []:'',
       addingModel: {},
     }
   },
-  created () {
-    console.log('created', this.widget, this.models)
+  beforeCreate() {
+    if (this.widget.type === 'checkbox') {
+      console.log('meet checkbox , set dataModel', []);
+      this.dataModel = [];
+    }
+  },
+  created() {
     if (this.widget.options.remote && this.remote[this.widget.options.remoteFunc]) {
       this.remote[this.widget.options.remoteFunc]((data) => {
         this.widget.options.remoteOptions = data.map(item => {
@@ -325,7 +332,13 @@ export default {
         break;
       default:
         // 其余的简单model
-        this.setModelIfNotExist(this.models, model, '');
+        let defaultVal = '';
+        if (widgetType === 'checkbox') {
+          this.dataModel = [];
+          defaultVal = [];
+          console.log('checkbox meet')
+        }
+        this.setModelIfNotExist(this.models, model, defaultVal);
         this.dataModel = ''
     }
   },
@@ -383,7 +396,7 @@ export default {
       deep: true,
       handler(val) {
         this.models[this.widget.model] = val
-        // console.log('watch dataModel change, update into Models')
+
         this.$emit('update:models', {
           ...this.models,
           [this.widget.model]: val
@@ -394,7 +407,6 @@ export default {
     models: {
       deep: true,
       handler (val) {
-        // console.log('watch models change update into dataModel')
         this.dataModel = val[this.widget.model]
       }
     }
