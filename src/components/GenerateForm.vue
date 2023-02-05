@@ -6,12 +6,13 @@
              :size="data.config.size"
              :model="models" :rules="rules" :label-position="data.config.labelPosition"
              :label-width="data.config.labelWidth + 'px'">
+<!--      利用generate-form-item递归生成嵌套表单元素-->
       <template v-for="widget in data.list">
         <generate-form-item
+                            path=""
                             :key="widget.key"
                             :widget="widget"
                             :models.sync="models"
-                            :rules="rules"
                             :remote="remote"
                             @input-change="onInputChange">
         </generate-form-item>

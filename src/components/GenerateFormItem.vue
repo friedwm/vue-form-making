@@ -1,5 +1,6 @@
 <template>
-  <el-form-item :label="widget.name" :prop="widget.model">
+  <el-form-item :label="widget.name" :prop="path + widget.model" :rules="widget.rules">
+    <!--    元素还是在根model上-->
     <template v-if="widgetTypeIs('grid')">
       <el-row
           type="flex"
@@ -10,10 +11,10 @@
                 :span="col.span ? col.span : 0">
 
           <generate-form-item v-for="(el, i) in col.list"
+                              :path="path"
                               :key="i"
                               :widget="el"
                               :models="models"
-                              :rules="rules"
                               :index="i">
           </generate-form-item>
         </el-col>
@@ -21,10 +22,10 @@
     </template>
     <template v-if="widgetTypeIs('group')">
       <generate-form-item v-for="(el, i) in widget.columns[0].list"
+                          :path="path + widget.model+ '.'"
                           :key="i"
                           :widget="el"
                           :models="models[widget.model]"
-                          :rules="rules"
                           :index="i">
       </generate-form-item>
     </template>
@@ -42,10 +43,10 @@
 
         </div>
         <generate-form-item v-for="(el, i) in widget.columns[0].list"
+                            :path="path + subItemIndex + '.' "
                             :key="i"
                             :widget="el"
                             :models="subItem"
-                            :rules="rules"
                             :index="subItemIndex">
         </generate-form-item>
       </div>
@@ -53,7 +54,7 @@
     </template>
     <template v-if="widgetTypeIs('input')">
       <el-input
-          v-if="widget.options.dataType == 'number' || widget.options.dataType == 'integer' || widget.options.dataType == 'float'"
+          v-if="widget.options.dataType === 'number' || widget.options.dataType === 'integer' || widget.options.dataType === 'float'"
           type="number"
           v-model.number="dataModel"
           :placeholder="widget.options.placeholder"
@@ -120,7 +121,6 @@
                          :disabled="widget.options.disabled"
       >
         <el-checkbox
-
             :style="{display: widget.options.inline ? 'inline-block' : 'block'}"
             :label="item.value"
             v-for="(item, index) in (widget.options.remote ? widget.options.remoteOptions : widget.options.options)"
@@ -275,20 +275,14 @@ import {cloneDeep} from 'lodash'
 
 export default {
   name: 'generateFormItem',
-  props: ['widget', 'models', 'rules', 'remote'],
+  props: ['widget', 'models', 'remote', 'path'],
   components: {
     FmUpload
   },
   data() {
     return {
-      dataModel: this.widget.type === 'checkbox' ? []:'',
+      dataModel: this.widget.type === 'checkbox' ? [] : '',
       addingModel: {},
-    }
-  },
-  beforeCreate() {
-    if (this.widget.type === 'checkbox') {
-      console.log('meet checkbox , set dataModel', []);
-      this.dataModel = [];
     }
   },
   created() {
@@ -332,21 +326,13 @@ export default {
         break;
       default:
         // 其余的简单model
-        let defaultVal = '';
-        if (widgetType === 'checkbox') {
-          this.dataModel = [];
-          defaultVal = [];
-          console.log('checkbox meet')
-        }
-        this.setModelIfNotExist(this.models, model, defaultVal);
-        this.dataModel = ''
+        this.setModelIfNotExist(this.models, model, '');
     }
   },
   methods: {
     setModelIfNotExist(models, model, val) {
       if (!(model in models)) {
         this.$set(models, model, val)
-        console.log('init model in models', model, val)
       }
     },
     addSubItem() {

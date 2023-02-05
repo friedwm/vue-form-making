@@ -457,7 +457,7 @@ export default {
 
       this.generateRule()
     },
-    valiatePattern (val) {
+    validatePattern (val) {
       if (!this.show) {
         return false
       }
@@ -489,13 +489,13 @@ export default {
       this.validateDataType(val)
     },
     'data.options.pattern': function (val) {
-      this.valiatePattern(val)
+      this.validatePattern(val)
     },
     'data.name': function (val) {
       if (this.data.options) {
         this.validateRequired(this.data.options.required)
         this.validateDataType(this.data.options.dataType)
-        this.valiatePattern(this.data.options.pattern)
+        this.validatePattern(this.data.options.pattern)
       }
     }
   }
