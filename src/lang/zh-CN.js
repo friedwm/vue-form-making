@@ -62,7 +62,8 @@ export default {
       addColumn: '添加列',
       addTab: '添加标签',
       upload: '点击上传',
-      add: '添加'
+      add: '添加',
+      close: '关闭'
     },
     config: {
       form: {

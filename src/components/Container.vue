@@ -141,6 +141,7 @@
                 }}
               </el-button>
               <el-button @click="handleReset">{{ $t('fm.actions.reset') }}</el-button>
+              <el-button @click="previewVisible = false">{{ $t('fm.actions.close') }}</el-button>
             </template>
           </cus-dialog>
 

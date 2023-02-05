@@ -29,12 +29,17 @@
       </generate-form-item>
     </template>
     <template v-if="widgetTypeIs('subform')">
-      <div class="subform-row" v-for="(subItem, subItemIndex) in models[widget.model]">
+      <div class="subform-row" v-for="(subItem, subItemIndex) in models[widget.model]" :key="subItemIndex">
         <!--        是个数组-->
         <div class="subitem-index">
           <el-tag effect="plain">#{{ subItemIndex + 1 }}</el-tag>
-          <el-button circle type="danger" class="el-icon-delete" size="small"
-                     @click.stop="models[widget.model].splice(subItemIndex,1)"></el-button>
+          <el-popconfirm class="subitem-del"
+                         @confirm="models[widget.model].splice(subItemIndex,1)"
+              title="确定删除吗？"
+          >
+            <el-button circle type="danger" class="el-icon-delete" size="small" slot="reference"></el-button>
+          </el-popconfirm>
+
         </div>
         <generate-form-item v-for="(el, i) in widget.columns[0].list"
                             :key="i"

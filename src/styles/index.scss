@@ -255,16 +255,6 @@ $primary-background-color: #ecf5ff;
           }
         }
 
-        //&::before {
-        //  position: absolute;
-        //  left: 0;
-        //  right: 0;
-        //  top: 0;
-        //  bottom: 0;
-        //  z-index: 9999;
-        //  //display: block;
-        //}
-
         // 字段类型
         .widget-view-type {
           // 默认不显示
@@ -281,19 +271,19 @@ $primary-background-color: #ecf5ff;
           color: white
         }
 
-        &:hover {
+        &.hovered {
           background: $primary-background-color;
           border: 1px solid $primary-color;
 
-          .widget-view-drag {
+          > .widget-view-drag {
             display: block;
           }
 
-          .widget-view-type {
+          > .widget-view-type {
             display: block;
           }
 
-          .widget-view-action {
+          > .widget-view-action {
             display: block;
           }
         }
@@ -301,7 +291,7 @@ $primary-background-color: #ecf5ff;
         &.active {
           border: 1px solid $primary-color;
 
-          .widget-view-type {
+          > .widget-view-type {
             display: none;
           }
         }
@@ -479,19 +469,19 @@ $primary-background-color: #ecf5ff;
   .generate-form {
 
     .subform-row {
-      .subitem-index {
-        > .el-button {
+      > .subitem-index {
+        > .subitem-del {
           display: none;
         }
       }
 
       &:hover {
-        .subitem-index {
+        > .subitem-index {
           > .el-tag {
             display: none;
           }
 
-          > .el-button {
+          > .subitem-del {
             display: block;
           }
         }

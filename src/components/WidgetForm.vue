@@ -8,7 +8,6 @@
              :label-width="data.config.labelWidth + 'px'">
 
       <div class="widget-form-list">
-
         <draggable class="widget-draggable"
                    :list="data.list"
                    v-bind="{group:'people', ghostClass: 'ghost',animation: 200, handle: '.drag-widget'}"

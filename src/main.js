@@ -1,3 +1,4 @@
+import store from '@/store/index'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -9,8 +10,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import enLocale from 'element-ui/lib/locale/lang/en'
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+
 import mixin from '@/mixin'
-import store from '@/store'
 // import 'form-making/dist/FormMaking.css'
 // import FormMaking from 'form-making'
 import FormMaking from './index'

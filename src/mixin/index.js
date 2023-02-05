@@ -1,18 +1,32 @@
 import {genUniqKey} from '@/util/index'
 import {cloneDeep} from 'lodash'
+
 export default {
   methods: {
+    enterEle(element) {
+      console.log('enter element', element.key)
+      this.$store.commit('addMouseEnterWidgetKey', element.key)
+    },
+    leaveEle(element) {
+      console.log('leave element', element.key)
+      this.$store.commit('delMouseLeaveWidgetKey', element.key)
+    },
     cloneDeep(obj) {
       return cloneDeep(obj)
     },
     setSelected(element) {
-      this.$store.commit('setSelectWidget', element)
+      this.$store.commit('setSelectWidget', element);
     },
     initialized(element) {
       return element && element.key
     },
     isSelected(element) {
       return element.key === this.$store.state.selectWidget.key
+    },
+    isHovered(element) {
+      return element.key
+          === this.$store.state.enterWidgetKeys[this.$store.state.enterWidgetKeys.length
+          - 1];
     },
     isCompound(element) {
       return ['grid', 'group', 'subform'].indexOf(element.type) !== -1

@@ -1,21 +1,21 @@
 <template>
   <!--  可以拖拽的元素-->
-  <div class="widget-view" :class="{active: isSelected(element)}" @click.stop="setSelected(element)">
+  <div class="widget-view" :class="{active: isSelected(element), hovered: isHovered(element)}"
+       @mouseenter="enterEle(element)" @mouseleave="leaveEle(element)" @click.stop="setSelected(element)">
     <!--    grid, group, subform-->
     <template v-if="isCompound(element)">
       <el-form-item
-                    v-if="initialized(element)"
-                    :class="{'is_req': element.options.required}"
-                    :label="element.name"
+          v-if="initialized(element)"
+          :class="{'is_req': element.options.required}"
+          :label="element.name"
       >
         <el-row
-                type="flex"
-                :gutter="element.options.gutter ? element.options.gutter : 0"
+            type="flex"
+            :gutter="element.options.gutter ? element.options.gutter : 0"
                 :justify="element.options.justify"
                 :align="element.options.align">
           <el-col v-for="(col, colIndex) in element.columns" :key="colIndex"
                   :span="col.span ? col.span : 0">
-
             <draggable
                 class="widget-draggable"
                 :class="{empty: col.list.length===0}"
@@ -237,7 +237,7 @@
       </el-form-item>
     </template>
     <div class="widget-view-type">
-      {{$t('fm.components.fields.' + element.type)}}
+      {{element.model}}
     </div>
     <!--    操作区-->
     <div class="widget-view-action"
@@ -270,10 +270,7 @@ export default {
     },
   },
   methods: {
-
     handleWidgetDelete(index) {
-
-
       if (this.data.list.length - 1 === index) {
         if (index === 0) {
           this.$store.commit('clearSelectWidget');
