@@ -29,11 +29,11 @@
       </generate-form-item>
     </template>
     <template v-if="widgetTypeIs('subform')">
-      <div class="subform-row" v-for="(subItem,subItemIndex) of models[widget.model]">
+      <div class="subform-row" v-for="(subItem, subItemIndex) in models[widget.model]">
         <!--        是个数组-->
         <div class="subitem-index">
           <el-tag effect="plain">#{{ subItemIndex + 1 }}</el-tag>
-          <el-button circle type="danger" class="el-icon-delete"
+          <el-button circle type="danger" class="el-icon-delete" size="small"
                      @click.stop="models[widget.model].splice(subItemIndex,1)"></el-button>
         </div>
         <generate-form-item v-for="(el, i) in widget.columns[0].list"
@@ -279,6 +279,7 @@ export default {
     }
   },
   created () {
+    console.log('created', this.widget, this.models)
     if (this.widget.options.remote && this.remote[this.widget.options.remoteFunc]) {
       this.remote[this.widget.options.remoteFunc]((data) => {
         this.widget.options.remoteOptions = data.map(item => {
@@ -325,8 +326,9 @@ export default {
   },
   methods: {
     setModelIfNotExist(models, model, val) {
-      if (!model in models) {
+      if (!(model in models)) {
         this.$set(models, model, val)
+        console.log('init model in models', model, val)
       }
     },
     addSubItem() {

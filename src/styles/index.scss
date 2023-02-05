@@ -477,20 +477,26 @@ $primary-background-color: #ecf5ff;
   }
 
   .generate-form {
-    .subitem-index {
-      .el-button {
-        display: none;
+
+    .subform-row {
+      .subitem-index {
+        > .el-button {
+          display: none;
+        }
       }
 
       &:hover {
-        .el-tag {
-          display: none;
-        }
+        .subitem-index {
+          > .el-tag {
+            display: none;
+          }
 
-        .el-button {
-          display: block;
+          > .el-button {
+            display: block;
+          }
         }
       }
+
     }
   }
 }
