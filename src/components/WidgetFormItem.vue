@@ -270,9 +270,7 @@ export default {
     },
   },
   methods: {
-    isCompound(element) {
-      return ['grid', 'group', 'subform'].indexOf(element.type) !== -1
-    },
+
     handleWidgetDelete(index) {
 
 

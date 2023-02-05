@@ -14,6 +14,9 @@ export default {
     isSelected(element) {
       return element.key === this.$store.state.selectWidget.key
     },
+    isCompound(element) {
+      return ['grid', 'group', 'subform'].indexOf(element.type) !== -1
+    },
     widgetAdded(list, evt) {
       // console.log('before widgetAdded', JSON.stringify(list), evt, evt.oldIndex, evt.newIndex, evt.oldDraggableIndex, evt.newDraggableIndex);
       let newIndex = evt.newIndex

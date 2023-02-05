@@ -1,87 +1,20 @@
 <template>
   <div class="fm-style">
     <el-form ref="generateForm"
+             class="generate-form"
              label-suffix=":"
              :size="data.config.size"
              :model="models" :rules="rules" :label-position="data.config.labelPosition"
              :label-width="data.config.labelWidth + 'px'">
-      <template v-for="item in data.list">
-
-        <template v-if="item.type == 'grid'">
-          <el-row
-              :key="item.key"
-              type="flex"
-              :gutter="item.options.gutter ? item.options.gutter : 0"
-              :justify="item.options.justify"
-              :align="item.options.align"
-          >
-            <el-col v-for="(col, colIndex) in item.columns" :key="colIndex" :span="col.span">
-              <template v-for="citem in col.list">
-                <el-form-item v-if="citem.type=='blank'" :label="citem.name" :prop="citem.model"
-                              :key="citem.key">
-                  <slot :name="citem.model" :model="models"></slot>
-                </el-form-item>
-                <generate-form-item v-else
-                                    :key="citem.key"
-                                    :models.sync="models"
-                                    :remote="remote"
-                                    :rules="rules"
-                                    :widget="citem"
-                                    @input-change="onInputChange">
-                </generate-form-item>
-              </template>
-            </el-col>
-          </el-row>
-        </template>
-
-        <template v-else-if="item.type == 'group'">
-          <el-form-item
-              :key="item.key"
-              :label="item.name"
-          >
-            <el-row
-                type="flex"
-                :gutter="item.options.gutter ? item.options.gutter : 0"
-                :justify="item.options.justify"
-                :align="item.options.align"
-            >
-              <el-col v-for="(col, colIndex) in item.columns" :key="colIndex" :span="col.span">
-                <template v-for="citem in col.list">
-                  <el-form-item v-if="citem.type=='blank'" :label="citem.name" :prop="citem.model"
-                                :key="citem.key">
-                    <slot :name="citem.model" :model="models"></slot>
-                  </el-form-item>
-                  <generate-form-item v-else
-                                      :key="citem.key"
-                                      :models.sync="models"
-                                      :remote="remote"
-                                      :rules="rules"
-                                      :widget="citem"
-                                      @input-change="onInputChange">
-                  </generate-form-item>
-                </template>
-              </el-col>
-            </el-row>
-          </el-form-item>
-        </template>
-
-        <template v-else-if="item.type == 'blank'">
-          <el-form-item :label="item.name" :prop="item.model" :key="item.key">
-            <slot :name="item.model" :model="models"></slot>
-          </el-form-item>
-        </template>
-
-        <template v-else>
-          <generate-form-item
-              :key="item.key"
-              :models.sync="models"
-              :rules="rules"
-              :widget="item"
-              @input-change="onInputChange"
-              :remote="remote">
-          </generate-form-item>
-        </template>
-
+      <template v-for="widget in data.list">
+        <generate-form-item
+                            :key="widget.key"
+                            :widget="widget"
+                            :models.sync="models"
+                            :rules="rules"
+                            :remote="remote"
+                            @input-change="onInputChange">
+        </generate-form-item>
       </template>
     </el-form>
   </div>
@@ -93,9 +26,9 @@ import GenerateFormItem from './GenerateFormItem'
 export default {
   name: 'fm-generate-form',
   components: {
-    GenerateFormItem: GenerateFormItem
+    GenerateFormItem
   },
-  props: ['data', 'remote', 'value', 'insite'],
+  props: ['data', 'remote', 'value'],
   data() {
     return {
       models: {},
@@ -103,64 +36,11 @@ export default {
     }
   },
   created() {
-    this.generateModel(this.data.list)
+
   },
   mounted() {
   },
   methods: {
-    // 生成model对象，包括rules校验规则
-    generateModel(genList, root) {
-      if (!root) {
-        root = '.'
-      }
-      for (let i = 0; i < genList.length; i++) {
-        let widgetType = genList[i].type;
-        if (widgetType === 'grid') {
-          genList[i].columns.forEach(item => {
-            this.generateModel(item.list)
-          })
-        } else if (widgetType === 'group') {
-          let relativeRoot = root + genList[i].model;
-          genList[i].columns.forEach(item => {
-            this.generateModel(item.list, relativeRoot)
-          })
-        } else {
-          if (this.value && Object.keys(this.value).indexOf(genList[i].model) >= 0) {
-            this.models[genList[i].model] = this.value[genList[i].model]
-          } else {
-            if (widgetType === 'blank') {
-              this.$set(this.models, genList[i].model,
-                  genList[i].options.defaultType === 'String' ? '' : (genList[i].options.defaultType
-                  === 'Object' ? {} : []))
-            } else {
-              this.models[genList[i].model] = genList[i].options.defaultValue
-            }
-          }
-
-          // 有校验规则
-          if (this.rules[genList[i].model]) {
-
-            this.rules[genList[i].model] = [...this.rules[genList[i].model],
-              // 附加新的校验规则
-              ...genList[i].rules.map(item => {
-                if (item.pattern) {
-                  return {...item, pattern: new RegExp(item.pattern)}
-                } else {
-                  return {...item}
-                }
-              })]
-          } else {
-            this.rules[genList[i].model] = [...genList[i].rules.map(item => {
-              if (item.pattern) {
-                return {...item, pattern: new RegExp(item.pattern)}
-              } else {
-                return {...item}
-              }
-            })]
-          }
-        }
-      }
-    },
     getData() {
       return new Promise((resolve, reject) => {
         this.$refs.generateForm.validate(valid => {
