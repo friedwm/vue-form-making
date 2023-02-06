@@ -124,7 +124,7 @@
               form
           >
             <generate-form insite="true" @on-change="handleDataChange" v-if="previewVisible"
-                           :data="widgetForm" :value="widgetModels" :remote="remoteFuncs"
+                           :widgetForm="widgetForm" :widgetModels="widgetModels" :remote="remoteFuncs"
                            ref="generateForm">
 
               <template v-slot:blank="scope">

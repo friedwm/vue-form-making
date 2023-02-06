@@ -3,18 +3,18 @@
     <el-form ref="generateForm"
              class="generate-form"
              label-suffix=":"
-             :size="data.config.size"
-             :model="models" :rules="rules" :label-position="data.config.labelPosition"
-             :label-width="data.config.labelWidth + 'px'">
-<!--      利用generate-form-item递归生成嵌套表单元素-->
-      <template v-for="widget in data.list">
+             :size="widgetForm.config.size"
+             :model="models" :rules="rules" :label-position="widgetForm.config.labelPosition"
+             :label-width="widgetForm.config.labelWidth + 'px'">
+      <!--      利用generate-form-item递归生成嵌套表单元素-->
+      <template v-for="widget in widgetForm.list">
         <generate-form-item
-                            path=""
-                            :key="widget.key"
-                            :widget="widget"
-                            :models.sync="models"
-                            :remote="remote"
-                            @input-change="onInputChange">
+            path=""
+            :key="widget.key"
+            :widget="widget"
+            :models.sync="models"
+            :remote="remote"
+            @input-change="onInputChange">
         </generate-form-item>
       </template>
     </el-form>
@@ -29,7 +29,7 @@ export default {
   components: {
     GenerateFormItem
   },
-  props: ['data', 'remote', 'value'],
+  props: ['widgetForm', 'remote', 'widgetModels'],
   data() {
     return {
       models: {},
@@ -64,13 +64,7 @@ export default {
     }
   },
   watch: {
-    data: {
-      deep: true,
-      handler(val) {
-        this.generateModel(val.list)
-      }
-    },
-    value: {
+    widgetModels: {
       deep: true,
       handler(val) {
         console.log(JSON.stringify(val))

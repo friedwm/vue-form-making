@@ -17,10 +17,10 @@
   },
   "main": "dist/FormMaking.common.js",
   "scripts": {
-    "serve": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --open",
-    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
-    "lint": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service lint",
-    "build-bundle": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --target lib --name FormMaking ./src/index.js"
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "build-bundle": "vue-cli-service build --target lib --name FormMaking ./src/index.js"
   },
   "dependencies": {
     "axios": "^0.27.2",

@@ -1,5 +1,5 @@
 <template>
-  <el-form-item :label="widget.name" :prop="path + widget.model" :rules="widget.rules">
+  <el-form-item :label="widget.name" :prop="currentPath" :rules="widget.rules">
     <!--    元素还是在根model上-->
     <template v-if="widgetTypeIs('grid')">
       <el-row
@@ -25,29 +25,29 @@
                           :path="path + widget.model+ '.'"
                           :key="i"
                           :widget="el"
-                          :models="models[widget.model]"
-                          :index="i">
+                          :models="models[widget.model]">
       </generate-form-item>
     </template>
     <template v-if="widgetTypeIs('subform')">
-      <div class="subform-row" v-for="(subItem, subItemIndex) in models[widget.model]" :key="subItemIndex">
+      <div class="subform-row" v-for="(subItem, subItemIndex) in models[widget.model]"
+           :key="subItemIndex">
         <!--        是个数组-->
         <div class="subitem-index">
           <el-tag effect="plain">#{{ subItemIndex + 1 }}</el-tag>
           <el-popconfirm class="subitem-del"
                          @confirm="models[widget.model].splice(subItemIndex,1)"
-              title="确定删除吗？"
+                         title="确定删除吗？"
           >
-            <el-button circle type="danger" class="el-icon-delete" size="small" slot="reference"></el-button>
+            <el-button circle type="danger" class="el-icon-delete" size="small"
+                       slot="reference"></el-button>
           </el-popconfirm>
 
         </div>
         <generate-form-item v-for="(el, i) in widget.columns[0].list"
-                            :path="path + subItemIndex + '.' "
+                            :path="path + widget.model + '.' + subItemIndex + '.' "
                             :key="i"
                             :widget="el"
-                            :models="subItem"
-                            :index="subItemIndex">
+                            :models="subItem">
         </generate-form-item>
       </div>
       <el-button type="text" icon="el-icon-plus" @click.stop="addSubItem()">添加</el-button>
@@ -280,6 +280,7 @@ export default {
     FmUpload
   },
   data() {
+    console.log('this.widget.type', this.widget.type)
     return {
       dataModel: this.widget.type === 'checkbox' ? [] : '',
       addingModel: {},
@@ -309,24 +310,21 @@ export default {
     let model = this.widget.model;
     switch (widgetType) {
       case 'grid':
-        for (const col of this.widget.columns) {
-          for (const w of col.list) {
-            this.setModelIfNotExist(this.models, w.model, '')
-          }
-        }
         break;
       case 'group':
         this.setModelIfNotExist(this.models, model, {});
-        this.dataModel = {}
         break;
       case 'subform':
         this.setModelIfNotExist(this.models, model, []);
-        this.dataModel = [];
         this.addingModel = this.buildSubformItem(this.widget.columns[0].list);
         break;
       default:
         // 其余的简单model
-        this.setModelIfNotExist(this.models, model, '');
+        let defaultVal = '';
+        if (this.widget.type === 'checkbox') {
+          defaultVal = []
+        }
+        this.setModelIfNotExist(this.models, model, defaultVal);
     }
   },
   methods: {
@@ -359,7 +357,11 @@ export default {
             }
             break;
           default:
-            subItem[model] = ''
+            if (widget.type === 'checkbox') {
+              subItem[model] = [];
+            } else {
+              subItem[model] = '';
+            }
         }
       }
       console.log('buildSubformItem', subwidgetList, subItem)
@@ -368,6 +370,7 @@ export default {
     widgetTypeIs(wt) {
       return this.widgetType === wt;
     },
+
   },
   computed: {
     widgetType() {
@@ -376,11 +379,15 @@ export default {
     model() {
       return this.models[this.widget.model];
     },
+    currentPath() {
+      return this.path + this.widget.model;
+    },
   },
   watch: {
     dataModel: {
       deep: true,
       handler(val) {
+        console.log('dataModel changed to', val, this.widget.model)
         this.models[this.widget.model] = val
 
         this.$emit('update:models', {
@@ -390,10 +397,11 @@ export default {
         this.$emit('input-change', val, this.widget.model)
       }
     },
-    models: {
+    currentPath: {
       deep: true,
-      handler (val) {
-        this.dataModel = val[this.widget.model]
+      immediate: true,
+      handler(val) {
+        console.log('currentPath changed to', val, this.widget.model)
       }
     }
   }
