@@ -267,7 +267,7 @@ export const advanceComponents = [
       isDelete: false,
       min: 0,
       isEdit: false,
-      action: 'http://localhost:28080/common/uploadFile.json'
+      action: ''
     }
   },
   {
