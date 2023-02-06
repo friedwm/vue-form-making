@@ -259,7 +259,7 @@ export const advanceComponents = [
       width: '',
       tokenFunc: 'funcGetToken',
       token: '',
-      domain: 'https://tcdn.form.making.link/',
+      domain: '',
       disabled: false,
       length: 8,
       multiple: false,
@@ -267,7 +267,7 @@ export const advanceComponents = [
       isDelete: false,
       min: 0,
       isEdit: false,
-      action: 'https://tools-server.making.link/api/transfer'
+      action: 'http://localhost:28080/common/uploadFile.json'
     }
   },
   {

@@ -253,9 +253,10 @@ export default {
       default: () => ['input', 'textarea', 'number', 'radio', 'checkbox', 'time', 'date', 'rate',
         'color', 'select', 'switch', 'slider', 'text']
     },
+    // imgupload, 'cascader'
     advanceFields: {
       type: Array,
-      default: () => ['imgupload', 'editor', 'cascader', 'group', 'subform']
+      default: () => ['editor', 'group', 'subform']
     },
     layoutFields: {
       type: Array,
