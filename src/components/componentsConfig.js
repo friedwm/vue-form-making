@@ -50,19 +50,19 @@ export const basicComponents = [
     options: {
       inline: false,
       defaultValue: '',
-      showLabel: false,
+      showLabel: true,
       options: [
         {
-          value: 'Option 1',
-          label: 'Option 1'
+          value: 'Option 1 Value',
+          label: 'Option 1 Label'
         },
         {
-          value: 'Option 2',
-          label: 'Option 2'
+          value: 'Option 2 Value',
+          label: 'Option 2 Label'
         },
         {
-          value: 'Option 3',
-          label: 'Option 3'
+          value: 'Option 3 Value',
+          label: 'Option 3 Label'
         }
       ],
       required: false,
@@ -83,16 +83,19 @@ export const basicComponents = [
     options: {
       inline: false,
       defaultValue: [],
-      showLabel: false,
+      showLabel: true,
       options: [
         {
-          value: 'Option 1'
+          value: 'Option 1 Value',
+          label: 'Option 1 Label'
         },
         {
-          value: 'Option 2'
+          value: 'Option 2 Value',
+          label: 'Option 2 Label'
         },
         {
-          value: 'Option 3'
+          value: 'Option 3 Value',
+          label: 'Option 3 Label'
         }
       ],
       required: false,
@@ -176,16 +179,20 @@ export const basicComponents = [
       clearable: false,
       placeholder: '',
       required: false,
-      showLabel: false,
+      showLabel: true,
       width: '',
       options: [
         {
-          value: 'Option 1'
+          value: 'Option 1 Value',
+          label: 'Option 1 Label'
         },
         {
-          value: 'Option 2'
-        },{
-          value: 'Option 3'
+          value: 'Option 2 Value',
+          label: 'Option 2 Label'
+        },
+        {
+          value: 'Option 3 Value',
+          label: 'Option 3 Label'
         }
       ],
       remote: false,

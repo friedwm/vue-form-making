@@ -325,6 +325,9 @@ export default {
           defaultVal = []
         }
         this.setModelIfNotExist(this.models, model, defaultVal);
+        if (this.widget.options.defaultValue) {
+          this.dataModel = cloneDeep(this.widget.options.defaultValue)
+        }
     }
   },
   methods: {

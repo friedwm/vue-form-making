@@ -62,13 +62,9 @@
           >
           </el-switch>
       </el-form-item>
-      <el-form-item :label="$t('fm.config.widget.showLabel')" v-if="Object.keys(data.options).indexOf('showLabel')>=0">
-        <el-switch
-            v-model="data.options.showLabel"
-          >
-        </el-switch>
-      </el-form-item>
+
       <el-form-item :label="$t('fm.config.widget.option')" v-if="Object.keys(data.options).indexOf('options')>=0">
+
         <el-radio-group v-model="data.options.remote" size="mini" style="margin-bottom:10px;">
           <el-radio-button :label="false">{{$t('fm.config.widget.staticData')}}</el-radio-button>
           <el-radio-button :label="true">{{$t('fm.config.widget.remoteData')}}</el-radio-button>
@@ -87,6 +83,9 @@
           </div>
         </template>
         <template v-else>
+          <div>
+            <el-checkbox v-model="data.options.showLabel">{{$t('fm.config.widget.showLabel')}}</el-checkbox>
+          </div>
           <template v-if="data.type=='radio' || (data.type=='select'&&!data.options.multiple)">
             <el-radio-group v-model="data.options.defaultValue">
               <draggable tag="ul" :list="data.options.options"
@@ -98,8 +97,8 @@
                     :label="item.value"
                     style="margin-right: 5px;"
                   >
-                    <el-input :style="{'width': data.options.showLabel? '90px': '180px' }" size="mini" v-model="item.value"></el-input>
-                    <el-input style="width:90px;" size="mini" v-if="data.options.showLabel" v-model="item.label"></el-input>
+                    <el-input :style="{'width': data.options.showLabel? '90px': '180px' }" :placeholder="$t('fm.config.widget.value')" size="mini" v-model="item.value"></el-input>
+                    <el-input style="width:90px;" size="mini" v-if="data.options.showLabel" :placeholder="$t('fm.config.widget.label')" v-model="item.label"></el-input>
                     <!-- <input v-model="item.value"/> -->
                   </el-radio>
                   <i class="drag-item" style="font-size: 16px;margin: 0 5px;cursor: move;"><i class="iconfont icon-icon_bars"></i></i>
@@ -123,8 +122,8 @@
                     :label="item.value"
                     style="margin-right: 5px;"
                   >
-                    <el-input :style="{'width': data.options.showLabel? '90px': '180px' }" size="mini" v-model="item.value"></el-input>
-                    <el-input style="width:90px;" size="mini" v-if="data.options.showLabel" v-model="item.label"></el-input>
+                    <el-input :style="{'width': data.options.showLabel? '90px': '180px' }" :placeholder="$t('fm.config.widget.value')" size="mini" v-model="item.value"></el-input>
+                    <el-input style="width:90px;" size="mini" v-if="data.options.showLabel" :placeholder="$t('fm.config.widget.label')" v-model="item.label"></el-input>
                   </el-checkbox>
                   <i class="drag-item" style="font-size: 16px;margin: 0 5px;cursor: move;"><i class="iconfont icon-icon_bars"></i></i>
                   <el-button @click="handleOptionsRemove(index)" circle plain type="danger" size="mini" icon="el-icon-minus" style="padding: 4px;margin-left: 5px;"></el-button>
@@ -135,6 +134,7 @@
           </template>
           <div style="margin-left: 22px;">
             <el-button type="text" @click="handleAddOption">{{$t('fm.actions.addOption')}}</el-button>
+            <el-button type="text" @click="resetDefaultOption">{{$t('fm.actions.resetDefaultOption')}}</el-button>
           </div>
         </template>
 
@@ -390,15 +390,24 @@ export default {
     handleAddOption () {
       if (this.data.options.showLabel) {
         this.data.options.options.push({
-          value: this.$t('fm.config.widget.newOption'),
-          label: this.$t('fm.config.widget.newOption')
+          value: this.$t('fm.config.widget.newOptionValue'),
+          label: this.$t('fm.config.widget.newOptionLabel')
         })
       } else {
         this.data.options.options.push({
           value: this.$t('fm.config.widget.newOption')
         })
       }
-
+    },
+    resetDefaultOption () {
+      let widgetType = this.data.type;
+      switch (widgetType) {
+        case 'checkbox':
+          this.data.options.defaultValue = []
+          break;
+        default:
+          this.data.options.defaultValue = '';
+      }
     },
     handleAddColumn () {
       this.data.columns.push({
