@@ -1,5 +1,5 @@
 {
-  "name": "form-making-modified",
+  "name": "@vicqx/form-making",
   "description": "A designer and generator of form base on Vue.js, make form development simple and efficient.",
   "version": "1.2.11",
   "author": "GavinZhulei",
