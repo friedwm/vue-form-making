@@ -11,14 +11,10 @@ import 'element-ui/lib/theme-chalk/index.css'
 import enLocale from 'element-ui/lib/locale/lang/en'
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
-import mixin from '@/mixin'
-// import 'form-making/dist/FormMaking.css'
-// import FormMaking from 'form-making'
 import FormMaking from './index'
 
 Vue.use(VueI18n)
 Vue.use(VueEditor)
-Vue.mixin(mixin)
 
 const messages = {
   'en-US': {

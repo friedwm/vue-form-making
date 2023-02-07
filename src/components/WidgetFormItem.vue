@@ -257,6 +257,8 @@
 <script>
 import FmUpload from './Upload'
 import Draggable from 'vuedraggable'
+import {genUniqKey} from "@/util";
+import {cloneDeep} from "lodash";
 
 export default {
   name: 'WidgetFormItem',
@@ -269,7 +271,58 @@ export default {
       return this.$store.state.selectWidget.key === this.element.key;
     },
   },
+
   methods: {
+    initialized(element) {
+      return element && element.key
+    },
+    widgetAdded(list, evt) {
+      let newIndex = evt.newIndex
+      let key = genUniqKey()
+      let element = list[newIndex];
+      if (element.key) {
+        console.log('element has been initialized, skip init', element)
+        return
+      }
+      let widgetType = element.type;
+      let newObj = cloneDeep(element)
+      newObj = {
+        ...newObj,
+        options: {
+          ...(newObj.options),
+          remoteFunc: 'func_' + key
+        },
+        key,
+        // 绑定键值
+        model: widgetType + '_' + key,
+        rules: []
+      }
+
+      this.$set(list, newIndex, newObj)
+
+      this.$store.commit('setSelectWidget', newObj)
+      console.log('initialized element', newObj)
+    },
+    isHovered(element) {
+      return element.key
+          === this.$store.state.enterWidgetKeys[this.$store.state.enterWidgetKeys.length
+          - 1];
+    },
+    isCompound(element) {
+      return ['grid', 'group', 'subform'].indexOf(element.type) !== -1
+    },
+    isSelected(element) {
+      return element.key === this.$store.state.selectWidget.key
+    },
+    setSelected(element) {
+      this.$store.commit('setSelectWidget', element);
+    },
+    enterEle(element) {
+      this.$store.commit('addMouseEnterWidgetKey', element.key)
+    },
+    leaveEle(element) {
+      this.$store.commit('delMouseLeaveWidgetKey', element.key)
+    },
     handleWidgetDelete(index) {
       if (this.data.list.length - 1 === index) {
         if (index === 0) {

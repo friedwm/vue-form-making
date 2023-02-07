@@ -30,6 +30,8 @@
 <script>
 import Draggable from 'vuedraggable'
 import WidgetFormItem from '@/components/WidgetFormItem.vue'
+import {genUniqKey} from "@/util";
+import {cloneDeep} from "lodash";
 
 export default {
   name: 'WidgetForm',
@@ -52,6 +54,36 @@ export default {
     }
   },
   methods: {
+    initialized(element) {
+      return element && element.key
+    },
+    widgetAdded(list, evt) {
+      let newIndex = evt.newIndex
+      let key = genUniqKey()
+      let element = list[newIndex];
+      if (element.key) {
+        console.log('element has been initialized, skip init', element)
+        return
+      }
+      let widgetType = element.type;
+      let newObj = cloneDeep(element)
+      newObj = {
+        ...newObj,
+        options: {
+          ...(newObj.options),
+          remoteFunc: 'func_' + key
+        },
+        key,
+        // 绑定键值
+        model: widgetType + '_' + key,
+        rules: []
+      }
+
+      this.$set(list, newIndex, newObj)
+
+      this.$store.commit('setSelectWidget', newObj)
+      console.log('initialized element', newObj)
+    },
     widgetSelected(widget) {
       this.$store.commit('setSelectWidget', widget);
     },
