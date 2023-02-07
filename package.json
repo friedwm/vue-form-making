@@ -1,7 +1,7 @@
 {
   "name": "@victqx/form-making",
   "description": "A designer and generator of form base on Vue.js, make form development simple and efficient.",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "author": "GavinZhulei",
   "license": "MIT",
   "keywords": [
