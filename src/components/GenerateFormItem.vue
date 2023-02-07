@@ -280,7 +280,6 @@ export default {
     FmUpload
   },
   data() {
-    console.log('this.widget.type', this.widget.type)
     return {
       dataModel: this.widget.type === 'checkbox' ? [] : '',
       addingModel: {},
@@ -338,11 +337,9 @@ export default {
     },
     addSubItem() {
       let subItem = cloneDeep(this.addingModel);
-      console.log('add subItem', subItem)
       this.model.push(subItem)
     },
     buildSubformItem(subwidgetList) {
-      console.info('subwidgetList', subwidgetList)
       let subItem = {};
       for (const widget of subwidgetList) {
         let model = widget.model;
@@ -367,7 +364,6 @@ export default {
             }
         }
       }
-      console.log('buildSubformItem', subwidgetList, subItem)
       return subItem;
     },
     widgetTypeIs(wt) {
@@ -390,7 +386,6 @@ export default {
     dataModel: {
       deep: true,
       handler(val) {
-        console.log('dataModel changed to', val, this.widget.model)
         this.models[this.widget.model] = val
 
         this.$emit('update:models', {
@@ -404,7 +399,7 @@ export default {
       deep: true,
       immediate: true,
       handler(val) {
-        console.log('currentPath changed to', val, this.widget.model)
+
       }
     }
   }

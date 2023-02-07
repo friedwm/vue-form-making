@@ -351,7 +351,7 @@
 
 <script>
 import Draggable from 'vuedraggable'
-
+import Store from '@/store/index'
 export default {
   components: {
     Draggable
@@ -369,7 +369,7 @@ export default {
   },
   computed: {
     data() {
-      return this.$store.state.selectWidget
+      return Store.state.selectWidget
     },
     show () {
       if (this.data && Object.keys(this.data).length > 0) {

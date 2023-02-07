@@ -30,6 +30,7 @@
 <script>
 import Draggable from 'vuedraggable'
 import WidgetFormItem from '@/components/WidgetFormItem.vue'
+import Store from '@/store/index'
 import {genUniqKey} from "@/util";
 import {cloneDeep} from "lodash";
 
@@ -80,12 +81,10 @@ export default {
       }
 
       this.$set(list, newIndex, newObj)
-
-      this.$store.commit('setSelectWidget', newObj)
-      console.log('initialized element', newObj)
+      Store.setSelectWidget(newObj);
     },
     widgetSelected(widget) {
-      this.$store.commit('setSelectWidget', widget);
+      Store.setSelectWidget(widget);
     },
   }
 }

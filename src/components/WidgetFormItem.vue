@@ -1,7 +1,8 @@
 <template>
   <!--  可以拖拽的元素-->
   <div class="widget-view" :class="{active: isSelected(element), hovered: isHovered(element)}"
-       @mouseenter="enterEle(element)" @mouseleave="leaveEle(element)" @click.stop="setSelected(element)">
+       @mouseenter="enterEle(element)" @mouseleave="leaveEle(element)"
+       @click.stop="setSelected(element)">
     <!--    grid, group, subform-->
     <template v-if="isCompound(element)">
       <el-form-item
@@ -12,8 +13,8 @@
         <el-row
             type="flex"
             :gutter="element.options.gutter ? element.options.gutter : 0"
-                :justify="element.options.justify"
-                :align="element.options.align">
+            :justify="element.options.justify"
+            :align="element.options.align">
           <el-col v-for="(col, colIndex) in element.columns" :key="colIndex"
                   :span="col.span ? col.span : 0">
             <draggable
@@ -237,7 +238,7 @@
       </el-form-item>
     </template>
     <div class="widget-view-type">
-      {{element.model}}
+      {{ element.model }}
     </div>
     <!--    操作区-->
     <div class="widget-view-action"
@@ -259,6 +260,7 @@ import FmUpload from './Upload'
 import Draggable from 'vuedraggable'
 import {genUniqKey} from "@/util";
 import {cloneDeep} from "lodash";
+import Store from '@/store/index'
 
 export default {
   name: 'WidgetFormItem',
@@ -268,7 +270,7 @@ export default {
   },
   computed: {
     selected() {
-      return this.$store.state.selectWidget.key === this.element.key;
+      return Store.state.selectWidget.key === this.element.key;
     },
   },
 
@@ -300,38 +302,37 @@ export default {
 
       this.$set(list, newIndex, newObj)
 
-      this.$store.commit('setSelectWidget', newObj)
-      console.log('initialized element', newObj)
+      Store.setSelectWidget(newObj)
     },
     isHovered(element) {
       return element.key
-          === this.$store.state.enterWidgetKeys[this.$store.state.enterWidgetKeys.length
+          === Store.state.enterWidgetKeys[Store.state.enterWidgetKeys.length
           - 1];
     },
     isCompound(element) {
       return ['grid', 'group', 'subform'].indexOf(element.type) !== -1
     },
     isSelected(element) {
-      return element.key === this.$store.state.selectWidget.key
+      return element.key === Store.state.selectWidget.key
     },
     setSelected(element) {
-      this.$store.commit('setSelectWidget', element);
+      Store.setSelectWidget(element);
     },
     enterEle(element) {
-      this.$store.commit('addMouseEnterWidgetKey', element.key)
+      Store.addMouseEnterWidgetKey(element.key)
     },
     leaveEle(element) {
-      this.$store.commit('delMouseLeaveWidgetKey', element.key)
+      Store.delMouseLeaveWidgetKey(element.key)
     },
     handleWidgetDelete(index) {
       if (this.data.list.length - 1 === index) {
         if (index === 0) {
-          this.$store.commit('clearSelectWidget');
+          Store.clearSelectWidget();
         } else {
-          this.$store.commit('setSelectWidget', this.data.list[index - 1])
+          Store.setSelectWidget(this.data.list[index - 1])
         }
       } else {
-        this.$store.commit('setSelectWidget', this.data.list[index + 1])
+        Store.setSelectWidget(this.data.list[index + 1])
       }
 
       this.$nextTick(() => {

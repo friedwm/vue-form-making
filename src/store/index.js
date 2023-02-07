@@ -1,41 +1,36 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import {reactive} from "vue";
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default reactive({
   state: {
     selectWidget: {},
     enterWidgetKeys: []
   },
-  mutations: {
-    setSelectWidget(state, widget) {
-      state.selectWidget = widget
-    },
-
-    clearSelectWidget(state) {
-      state.selectWidget = {}
-    },
-
-    addMouseEnterWidgetKey(state, key) {
-      if (state.enterWidgetKeys.findIndex(k => k === key) === -1) {
-        state.enterWidgetKeys.push(key);
-      }
-    },
-
-    delMouseLeaveWidgetKey(state, key) {
-      let idx = state.enterWidgetKeys.findIndex(k => k === key)
-      if (idx !== -1) {
-        state.enterWidgetKeys.splice(idx, 1)
-      }
-    },
+  setSelectWidget(widget) {
+    this.state.selectWidget = widget
   },
-  getters: {
-    currentHoverElementKey(state) {
-      if (state.enterWidgetKeys && state.enterWidgetKeys.length) {
-        return state.enterWidgetKeys[state.enterWidgetKeys.length - 1];
-      }
-      return null;
-    },
-  }
+
+  clearSelectWidget() {
+    this.state.selectWidget = {}
+  },
+
+  addMouseEnterWidgetKey(key) {
+    if (this.state.enterWidgetKeys.findIndex(k => k === key) === -1) {
+      this.state.enterWidgetKeys.push(key);
+    }
+  },
+
+  delMouseLeaveWidgetKey(key) {
+    let idx = this.state.enterWidgetKeys.findIndex(k => k === key)
+    if (idx !== -1) {
+      this.state.enterWidgetKeys.splice(idx, 1)
+    }
+  },
+
+  currentHoverElementKey() {
+    let state = this.state;
+    if (state.enterWidgetKeys && state.enterWidgetKeys.length) {
+      return state.enterWidgetKeys[state.enterWidgetKeys.length - 1];
+    }
+    return null;
+  },
 })
