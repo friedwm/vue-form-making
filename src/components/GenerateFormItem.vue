@@ -272,6 +272,7 @@
 <script>
 import FmUpload from './Upload'
 import {cloneDeep} from 'lodash'
+import {value} from "lodash/seq";
 
 export default {
   name: 'generateFormItem',
@@ -281,9 +282,9 @@ export default {
   },
   data() {
     return {
-      dataModel: this.widget.type === 'checkbox' ? [] : '',
+      dataModel: this.defaultValueOfWidget(),
       addingModel: {},
-    }
+    };
   },
   created() {
     if (this.widget.options.remote && this.remote[this.widget.options.remoteFunc]) {
@@ -320,7 +321,7 @@ export default {
       default:
         // 其余的简单model
         let defaultVal = '';
-        if (this.widget.type === 'checkbox') {
+        if (this.widget.type === 'checkbox' || this.widget.options.multiple) {
           defaultVal = []
         }
         this.setModelIfNotExist(this.models, model, defaultVal);
@@ -330,6 +331,13 @@ export default {
     }
   },
   methods: {
+    defaultValueOfWidget() {
+      let def = this.widget.options.defaultValue
+      if (this.widget.multiple) {
+        def = []
+      }
+      return def
+    },
     setModelIfNotExist(models, model, val) {
       if (!(model in models)) {
         this.$set(models, model, val)
@@ -357,7 +365,7 @@ export default {
             }
             break;
           default:
-            if (widget.type === 'checkbox') {
+            if (widget.type === 'checkbox' || widget.options.multiple) {
               subItem[model] = [];
             } else {
               subItem[model] = '';
@@ -383,6 +391,7 @@ export default {
     },
   },
   watch: {
+    // 这里是为了在基本元素修改后同步到models中
     dataModel: {
       deep: true,
       handler(val) {
@@ -395,12 +404,15 @@ export default {
         this.$emit('input-change', val, this.widget.model)
       }
     },
-    currentPath: {
+    models: {
       deep: true,
-      immediate: true,
       handler(val) {
-
-      }
+        console.log('models changed to ', val)
+        let newVal = val[this.widget.model];
+        if ((newVal instanceof Array && !newVal.length) || !newVal) {
+          this.dataModel = val[this.widget.model];
+        }
+      },
     }
   }
 }

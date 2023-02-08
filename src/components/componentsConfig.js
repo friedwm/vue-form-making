@@ -114,7 +114,7 @@ export const basicComponents = [
     type: 'time',
     icon: 'icon-time',
     options: {
-      defaultValue: '21:19:56',
+      defaultValue: '10:00:00',
       readonly: false,
       disabled: false,
       editable: true,
