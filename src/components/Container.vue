@@ -269,17 +269,12 @@ export default {
     }
   },
   data() {
-    let exist = null
-    if (this.existWidgetForm) {
-      exist = JSON.parse(this.existWidgetForm);
-    }
-
     return {
       basicComponents,
       layoutComponents,
       advanceComponents,
       resetJson: false,
-      widgetForm: exist || {
+      widgetForm: {
         list: [],
         config: {
           labelWidth: 100,
@@ -481,7 +476,13 @@ export default {
     },
     '$i18n.locale': function (val) {
       this._loadComponents()
-    }
+    },
+    existWidgetForm(str) {
+      console.log('existWidgetForm', str)
+      if (str) {
+        this.widgetForm = JSON.parse(str);
+      }
+    },
   }
 }
 </script>
