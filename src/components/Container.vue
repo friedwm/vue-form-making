@@ -470,7 +470,7 @@ export default {
     widgetForm: {
       deep: true,
       handler: function (val) {
-        // console.log('updated-widget-form', val)
+        console.log('updated-widget-form', JSON.stringify(val));
         this.$emit('updated-widget-form', val)
       }
     },
