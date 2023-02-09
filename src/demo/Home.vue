@@ -1,5 +1,6 @@
 <template>
-  <fm-making-form ref="makingForm" @updated-widget-form="widgetFormUpdated" upload preview generate-code generate-json clearable>
+  <fm-making-form ref="makingForm" @updated-widget-form="widgetFormUpdated" :exist-widget-form="e"
+                  upload preview generate-code generate-json clearable>
     <template slot="action">
     </template>
   </fm-making-form>
@@ -7,9 +8,14 @@
 
 <script>
 export default {
-  mounted () {
+  data() {
+    return {
+      e: ''
+    };
   },
-  methods:{
+  mounted() {
+  },
+  methods: {
     widgetFormUpdated() {
       // console.log('widgetFormUpdated')
     },

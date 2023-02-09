@@ -124,7 +124,8 @@
               form
           >
             <generate-form insite="true" @on-change="handleDataChange" v-if="previewVisible"
-                           :widgetForm="widgetForm" :widgetModels="widgetModels" :remote="remoteFuncs"
+                           :widgetForm="widgetForm" :widgetModels="widgetModels"
+                           :remote="remoteFuncs"
                            ref="generateForm">
 
               <template v-slot:blank="scope">
@@ -261,15 +262,24 @@ export default {
     layoutFields: {
       type: Array,
       default: () => ['grid']
+    },
+    existWidgetForm: {
+      type: String,
+      default: () => ''
     }
   },
   data() {
+    let exist = null
+    if (this.existWidgetForm) {
+      exist = JSON.parse(this.existWidgetForm);
+    }
+
     return {
       basicComponents,
       layoutComponents,
       advanceComponents,
       resetJson: false,
-      widgetForm: {
+      widgetForm: exist || {
         list: [],
         config: {
           labelWidth: 100,
@@ -321,7 +331,7 @@ export default {
   }
 }`,
       codeActiveName: 'vue',
-    }
+    };
   },
   mounted() {
     this._loadComponents()
