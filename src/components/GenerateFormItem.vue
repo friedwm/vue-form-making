@@ -406,11 +406,13 @@ export default {
     },
     models: {
       deep: true,
-      handler(val) {
-        console.log('models changed to ', val)
-        let newVal = val[this.widget.model];
-        if ((newVal instanceof Array && !newVal.length) || !newVal) {
-          this.dataModel = val[this.widget.model];
+      immediate: true,
+      handler(newModel) {
+        let newVal = newModel[this.widget.model];
+        console.log('models changed to ', newModel, newVal)
+        if ((newVal instanceof Array && !newVal.length) || newVal) {
+          this.dataModel = newModel[this.widget.model];
+          console.log('set dataModel', this.widget.model, newModel[this.widget.model]);
         }
       },
     }

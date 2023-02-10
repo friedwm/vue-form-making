@@ -60,7 +60,7 @@
       </el-form-item>
       <el-form-item :label="$t('fm.config.widget.multiple')"
                     v-if="data.type=='select' || data.type=='imgupload'">
-        <el-switch v-model="data.options.multiple" @change="handleSelectMuliple"></el-switch>
+        <el-switch v-model="data.options.multiple" @change="handleSelectMultiple"></el-switch>
       </el-form-item>
       <el-form-item :label="$t('fm.config.widget.filterable')" v-if="data.type=='select'">
         <el-switch v-model="data.options.filterable"></el-switch>
@@ -448,14 +448,13 @@
 <script>
 import Draggable from 'vuedraggable'
 import Store from '@/store/index'
-
+import deepEqual from 'deep-equal'
 export default {
   components: {
     Draggable
   },
   data() {
     return {
-      ready: false,
       validator: {
         type: null,
         required: null,
@@ -513,17 +512,21 @@ export default {
       })
     },
     generateRule() {
-      if (!this.ready) {
-        return
-      }
-      this.data.rules = [];
+
+      // this.data.rules = [];
+      let newRules = []
       Object.keys(this.validator).forEach(key => {
         if (this.validator[key]) {
-          this.data.rules.push(this.validator[key])
+          newRules.push(this.validator[key])
         }
       })
+
+      let equal = deepEqual(this.data.rules, newRules);
+      if (!equal) {
+        this.data.rules = newRules;
+      }
     },
-    handleSelectMuliple(value) {
+    handleSelectMultiple(value) {
       if (value) {
         if (this.data.options.defaultValue) {
           this.data.options.defaultValue = [this.data.options.defaultValue]
@@ -616,9 +619,6 @@ export default {
         this.validatePattern(this.data.options.pattern)
       }
     }
-  },
-  mounted() {
-    this.ready = true;
-  },
+  }
 }
 </script>
