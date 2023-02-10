@@ -466,6 +466,11 @@ export default {
       // console.log(field, value, data)
     }
   },
+  created() {
+    if (this.existWidgetForm) {
+      this.widgetForm = JSON.parse(this.existWidgetForm);
+    }
+  },
   watch: {
     widgetForm: {
       deep: true,
