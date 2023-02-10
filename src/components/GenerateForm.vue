@@ -54,13 +54,9 @@ export default {
     },
     onInputChange(value, field) {
       this.$emit('on-change', field, value, this.models)
-    }
-  },
-  created() {
-    if (this.widgetModels && Object.keys(this.widgetModels).length) {
-      this.models = cloneDeep(this.widgetModels);
-
-      let modelKeys = this.widgetForm.list.map(w=>w.model)
+    },
+    maintainModels(widgets, models) {
+      let modelKeys = this.widgetForm.list.map(w => w.model)
 
       // 维护models
       for (const model in this.models) {
@@ -68,8 +64,17 @@ export default {
           delete this.models[model];
         }
       }
+      return models;
+    },
+  },
+  mounted() {
+    if (this.widgetModels && Object.keys(this.widgetModels).length) {
+      // 为了让表单元素先生成自己的结构、默认值
+      // 先对models进行维护，再赋值
+      let models = cloneDeep(this.widgetModels);
+      this.models = this.maintainModels(this.widgetForm, models);
     }
-  }
+  },
 }
 </script>
 
