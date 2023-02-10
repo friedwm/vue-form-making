@@ -56,6 +56,12 @@ export default {
       this.$emit('on-change', field, value, this.models)
     }
   },
+  created() {
+    if (this.widgetForm && Object.keys(this.widgetForm).length) {
+      this.models = cloneDeep(this.widgetModels);
+    }
+  },
+  
   watch: {
     widgetModels: {
       deep: true,
