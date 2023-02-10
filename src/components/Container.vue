@@ -270,6 +270,7 @@ export default {
   },
   data() {
     return {
+      init: false,
       basicComponents,
       layoutComponents,
       advanceComponents,
@@ -351,9 +352,6 @@ export default {
           name: this.$t(`fm.components.fields.${item.type}`)
         }
       })
-    },
-    handleGoGithub() {
-      window.location.href = 'https://github.com/GavinZhuLei/vue-form-making'
     },
     handleConfigSelect(value) {
       this.configTab = value
@@ -457,37 +455,32 @@ export default {
       if (json.list.length > 0) {
         this.widgetFormSelect = json.list[0]
       }
-    },
-    handleInput(val) {
-      console.log(val)
-      this.blank = val
-    },
-    handleDataChange(field, value, data) {
-      // console.log(field, value, data)
     }
   },
   created() {
     if (this.existWidgetForm) {
       this.widgetForm = JSON.parse(this.existWidgetForm);
+      this.$nextTick(() => {
+        this.init = true;
+      })
+    } else {
+      this.init = true;
     }
   },
   watch: {
     widgetForm: {
       deep: true,
       handler: function (val) {
-        console.log('updated-widget-form', JSON.stringify(val));
-        this.$emit('updated-widget-form', val)
+        // 防止初始化的更改被监听
+        if (this.init) {
+          console.log('updated-widget-form', JSON.stringify(val));
+          this.$emit('updated-widget-form', val)
+        }
       }
     },
     '$i18n.locale': function (val) {
       this._loadComponents()
-    },
-    existWidgetForm(str) {
-      console.log('existWidgetForm', str)
-      if (str) {
-        this.widgetForm = JSON.parse(str);
-      }
-    },
+    }
   }
 }
 </script>

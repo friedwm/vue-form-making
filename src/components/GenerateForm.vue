@@ -57,18 +57,8 @@ export default {
     }
   },
   created() {
-    if (this.widgetForm && Object.keys(this.widgetForm).length) {
+    if (this.widgetModels && Object.keys(this.widgetModels).length) {
       this.models = cloneDeep(this.widgetModels);
-    }
-  },
-  
-  watch: {
-    widgetModels: {
-      deep: true,
-      handler(val) {
-        console.log(JSON.stringify(val))
-        this.models = cloneDeep(val);
-      }
     }
   }
 }

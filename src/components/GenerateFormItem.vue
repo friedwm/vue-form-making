@@ -282,53 +282,10 @@ export default {
   },
   data() {
     return {
+      ready: false,
       dataModel: this.defaultValueOfWidget(),
       addingModel: {},
     };
-  },
-  created() {
-    if (this.widget.options.remote && this.remote[this.widget.options.remoteFunc]) {
-      this.remote[this.widget.options.remoteFunc]((data) => {
-        this.widget.options.remoteOptions = data.map(item => {
-          return {
-            value: item[this.widget.options.props.value],
-            label: item[this.widget.options.props.label],
-            children: item[this.widget.options.props.children]
-          }
-        })
-      })
-    }
-
-    if (this.widget.type === 'imgupload' && this.widget.options.isQiniu) {
-      this.remote[this.widget.options.tokenFunc]((data) => {
-        this.widget.options.token = data
-      })
-    }
-
-    // 在这里构造本item的model和rules
-    let widgetType = this.widget.type;
-    let model = this.widget.model;
-    switch (widgetType) {
-      case 'grid':
-        break;
-      case 'group':
-        this.setModelIfNotExist(this.models, model, {});
-        break;
-      case 'subform':
-        this.setModelIfNotExist(this.models, model, []);
-        this.addingModel = this.buildSubformItem(this.widget.columns[0].list);
-        break;
-      default:
-        // 其余的简单model
-        let defaultVal = '';
-        if (this.widget.type === 'checkbox' || this.widget.options.multiple) {
-          defaultVal = []
-        }
-        this.setModelIfNotExist(this.models, model, defaultVal);
-        if (this.widget.options.defaultValue) {
-          this.dataModel = cloneDeep(this.widget.options.defaultValue)
-        }
-    }
   },
   methods: {
     defaultValueOfWidget() {
@@ -389,6 +346,50 @@ export default {
     currentPath() {
       return this.path + this.widget.model;
     },
+  },
+  created() {
+    if (this.widget.options.remote && this.remote[this.widget.options.remoteFunc]) {
+      this.remote[this.widget.options.remoteFunc]((data) => {
+        this.widget.options.remoteOptions = data.map(item => {
+          return {
+            value: item[this.widget.options.props.value],
+            label: item[this.widget.options.props.label],
+            children: item[this.widget.options.props.children]
+          }
+        })
+      })
+    }
+
+    if (this.widget.type === 'imgupload' && this.widget.options.isQiniu) {
+      this.remote[this.widget.options.tokenFunc]((data) => {
+        this.widget.options.token = data
+      })
+    }
+
+    // 在这里构造本item的model和rules
+    let widgetType = this.widget.type;
+    let model = this.widget.model;
+    switch (widgetType) {
+      case 'grid':
+        break;
+      case 'group':
+        this.setModelIfNotExist(this.models, model, {});
+        break;
+      case 'subform':
+        this.setModelIfNotExist(this.models, model, []);
+        this.addingModel = this.buildSubformItem(this.widget.columns[0].list);
+        break;
+      default:
+        // 其余的简单model
+        let defaultVal = '';
+        if (this.widget.type === 'checkbox' || this.widget.options.multiple) {
+          defaultVal = []
+        }
+        this.setModelIfNotExist(this.models, model, defaultVal);
+        if (this.widget.options.defaultValue) {
+          this.dataModel = cloneDeep(this.widget.options.defaultValue)
+        }
+    }
   },
   watch: {
     // 这里是为了在基本元素修改后同步到models中
