@@ -273,7 +273,6 @@
 <script>
 import FmUpload from './Upload'
 import {cloneDeep} from 'lodash'
-import {value} from "lodash/seq";
 
 export default {
   name: 'generateFormItem',
@@ -388,18 +387,6 @@ export default {
         this.setModelIfNotExist(this.models, modelKey, defaultVal);
     }
   },
-  watch: {
-    // 这里是为了在基本元素修改后同步到models中
-    dataModel: {
-      deep: true,
-      handler(val) {
-        let modelKey = this.modelKey;
-        this.models[modelKey] = val
-        this.$emit('input-change', val, modelKey)
-        console.log('form-item changed', modelKey, val)
-      }
-    },
-  },
   mounted() {
     if (this.models && this.modelKey in this.models) {
       let inputVal = this.models[this.modelKey];
@@ -410,6 +397,14 @@ export default {
         }
       }
     }
+
+    this.$watch('dataModel', (val) => {
+      let modelKey = this.modelKey;
+      this.models[modelKey] = val
+      this.$emit('input-change', val, modelKey)
+      console.log('form-item changed', modelKey, val)
+    }, {deep: true})
+
     console.log('item mounted', this.modelKey)
   },
 }
