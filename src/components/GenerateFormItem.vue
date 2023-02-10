@@ -396,11 +396,6 @@ export default {
       deep: true,
       handler(val) {
         this.models[this.widget.model] = val
-
-        this.$emit('update:models', {
-          ...this.models,
-          [this.widget.model]: val
-        })
         this.$emit('input-change', val, this.widget.model)
       }
     },
@@ -409,10 +404,11 @@ export default {
       immediate: true,
       handler(newModel) {
         let newVal = newModel[this.widget.model];
-        console.log('models changed to ', newModel, newVal)
         if ((newVal instanceof Array && !newVal.length) || newVal) {
-          this.dataModel = newModel[this.widget.model];
-          console.log('set dataModel', this.widget.model, newModel[this.widget.model]);
+          if (this.dataModel !== newModel[this.widget.model]) {
+            this.dataModel = newModel[this.widget.model];
+            console.log('set dataModel', this.widget.model, newModel[this.widget.model]);
+          }
         }
       },
     }

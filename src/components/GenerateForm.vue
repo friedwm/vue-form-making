@@ -12,7 +12,7 @@
             path=""
             :key="widget.key"
             :widget="widget"
-            :models.sync="models"
+            :models="models"
             :remote="remote"
             @input-change="onInputChange">
         </generate-form-item>
@@ -23,6 +23,7 @@
 
 <script>
 import GenerateFormItem from './GenerateFormItem'
+import {cloneDeep} from "lodash";
 
 export default {
   name: 'fm-generate-form',
@@ -35,11 +36,6 @@ export default {
       models: {},
       rules: {}
     }
-  },
-  created() {
-
-  },
-  mounted() {
   },
   methods: {
     getData() {
@@ -58,9 +54,6 @@ export default {
     },
     onInputChange(value, field) {
       this.$emit('on-change', field, value, this.models)
-    },
-    refresh() {
-
     }
   },
   watch: {
@@ -68,7 +61,7 @@ export default {
       deep: true,
       handler(val) {
         console.log(JSON.stringify(val))
-        this.models = {...this.models, ...val}
+        this.models = cloneDeep(val);
       }
     }
   }
