@@ -1,5 +1,6 @@
 <template>
-  <el-form-item :label="widget.name" :prop="currentPath" :rules="widget.rules">
+  <el-form-item :label="widget.name" :class="{grid_item: widgetTypeIs('grid')}" :prop="currentPath"
+                :rules="widget.rules">
     <!--    元素还是在根model上-->
     <template v-if="widgetTypeIs('grid')">
       <el-row

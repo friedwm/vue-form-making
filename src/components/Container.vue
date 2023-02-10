@@ -123,7 +123,7 @@
               width="1000px"
               form
           >
-            <generate-form insite="true" @on-change="handleDataChange" v-if="previewVisible"
+            <generate-form insite="true" v-if="previewVisible"
                            :widgetForm="widgetForm" :widgetModels="widgetModels"
                            :remote="remoteFuncs"
                            ref="generateForm">
@@ -270,7 +270,7 @@ export default {
   },
   data() {
     return {
-      init: false,
+      ready: false,
       basicComponents,
       layoutComponents,
       advanceComponents,
@@ -330,7 +330,10 @@ export default {
     };
   },
   mounted() {
-    this._loadComponents()
+    this._loadComponents();
+    this.$nextTick(()=> {
+      this.ready = true;
+    })
   },
   methods: {
     _loadComponents() {
@@ -460,11 +463,6 @@ export default {
   created() {
     if (this.existWidgetForm) {
       this.widgetForm = JSON.parse(this.existWidgetForm);
-      this.$nextTick(() => {
-        this.init = true;
-      })
-    } else {
-      this.init = true;
     }
   },
   watch: {
@@ -472,13 +470,13 @@ export default {
       deep: true,
       handler: function (val) {
         // 防止初始化的更改被监听
-        if (this.init) {
+        if (this.ready) {
           console.log('updated-widget-form', JSON.stringify(val));
           this.$emit('updated-widget-form', val)
         }
       }
     },
-    '$i18n.locale': function (val) {
+    '$i18n.locale': function () {
       this._loadComponents()
     }
   }

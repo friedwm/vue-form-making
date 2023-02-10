@@ -59,6 +59,15 @@ export default {
   created() {
     if (this.widgetModels && Object.keys(this.widgetModels).length) {
       this.models = cloneDeep(this.widgetModels);
+
+      let modelKeys = this.widgetForm.list.map(w=>w.model)
+
+      // 维护models
+      for (const model in this.models) {
+        if (modelKeys.indexOf(model) === -1) {
+          delete this.models[model];
+        }
+      }
     }
   }
 }

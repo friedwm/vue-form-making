@@ -171,6 +171,7 @@ $primary-background-color: #ecf5ff;
         background: #fff;
         border-radius: 5px;
         position: relative;
+
         &.empty {
           &::after {
             position: absolute;
@@ -225,6 +226,7 @@ $primary-background-color: #ecf5ff;
           z-index: 9;
           border-top-left-radius: 5px;
           border-bottom-right-radius: 5px;
+
           i {
             font-size: 14px;
             color: #fff;
@@ -467,6 +469,16 @@ $primary-background-color: #ecf5ff;
   }
 
   .generate-form {
+
+    .el-form-item.grid_item {
+      > .el-form-item__label {
+        display: none !important;
+      }
+
+      > .el-form-item__content {
+        margin-left: 10px !important;
+      }
+    }
 
     .subform-row {
       > .subitem-index {

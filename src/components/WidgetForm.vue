@@ -41,10 +41,6 @@ export default {
     WidgetFormItem,
   },
   props: ['data'],
-  data() {
-    return {
-    }
-  },
   mounted() {
     document.body.ondrop = function (event) {
       let isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1
