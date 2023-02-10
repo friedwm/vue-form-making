@@ -386,10 +386,12 @@ export default {
         if (this.widget.type === 'checkbox' || this.widget.options.multiple) {
           defaultVal = []
         }
-        this.setModelIfNotExist(this.models, model, defaultVal);
+
         if (this.widget.options.defaultValue) {
-          this.dataModel = cloneDeep(this.widget.options.defaultValue)
+          defaultVal = cloneDeep(this.widget.options.defaultValue)
         }
+        this.dataModel = defaultVal;
+        this.setModelIfNotExist(this.models, model, defaultVal);
     }
   },
   watch: {
