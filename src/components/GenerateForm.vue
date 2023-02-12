@@ -10,6 +10,7 @@
       <template v-for="widget in widgetForm.list">
         <generate-form-item
             path=""
+            v-if="ready"
             :key="widget.key"
             :widget="widget"
             :models="models"
@@ -33,6 +34,7 @@ export default {
   props: ['widgetForm', 'remote', 'widgetModels'],
   data() {
     return {
+      ready: false,
       models: {},
       rules: {}
     }
@@ -56,24 +58,39 @@ export default {
       this.$emit('on-change', field, value, this.models)
     },
     maintainModels(widgets, models) {
-      let modelKeys = this.widgetForm.list.map(w => w.model)
+      /*let modelKeys = []
+      for (const widget in widgets) {
+        let widgetType = widget.type;
+        let modelKey = widget.model;
+        if (widgetType !== 'grid') {
+          modelKeys.push(modelKey);
+        } else {
+          for (const column in widget.columns) {
 
-      // 维护models
-      for (const model in this.models) {
-        if (modelKeys.indexOf(model) === -1) {
-          delete this.models[model];
+          }
         }
       }
+
+      // 维护models
+      for (const model in models) {
+        if (modelKeys.indexOf(model) === -1) {
+          delete models[model];
+        } else {
+          this.maintainModels()
+        }
+      }*/
       return models;
     },
   },
-  mounted() {
+  created() {
     if (this.widgetModels && Object.keys(this.widgetModels).length) {
       // 为了让表单元素先生成自己的结构、默认值
       // 先对models进行维护，再赋值
       let models = cloneDeep(this.widgetModels);
-      this.models = this.maintainModels(this.widgetForm, models);
+      this.models = this.maintainModels(this.widgetForm.list, models);
     }
+
+    this.ready = true;
   },
 }
 </script>
