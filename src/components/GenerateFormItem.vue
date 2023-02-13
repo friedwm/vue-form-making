@@ -273,7 +273,6 @@
 <script>
 import FmUpload from './Upload'
 import {cloneDeep} from 'lodash'
-import {value} from "lodash/seq";
 
 export default {
   name: 'generateFormItem',
@@ -291,7 +290,7 @@ export default {
   methods: {
     defaultValueOfWidget() {
       let def = this.widget.options.defaultValue
-      if (this.widget.multiple) {
+      if (this.widget.multiple && !(def instanceof Array)) {
         def = []
       }
       return def
@@ -303,7 +302,7 @@ export default {
     },
     addSubItem() {
       let subItem = cloneDeep(this.addingModel);
-      this.model.push(subItem)
+      this.models[this.widget.model].push(subItem)
     },
     buildSubformItem(subwidgetList) {
       let subItem = {};
@@ -341,8 +340,8 @@ export default {
     widgetType() {
       return this.widget.type;
     },
-    model() {
-      return this.models[this.widget.model];
+    modelKey() {
+      return this.widget.model;
     },
     currentPath() {
       return this.path + this.widget.model;
@@ -368,22 +367,21 @@ export default {
     }
 
     // 在这里构造本item的model和rules
-    let widgetType = this.widget.type;
-    let model = this.widget.model;
-    switch (widgetType) {
+    let modelKey = this.modelKey;
+    switch (this.widgetType) {
       case 'grid':
         break;
       case 'group':
-        this.setModelIfNotExist(this.models, model, {});
+        this.setModelIfNotExist(this.models, modelKey, {});
         break;
       case 'subform':
-        this.setModelIfNotExist(this.models, model, []);
+        this.setModelIfNotExist(this.models, modelKey, []);
         this.addingModel = this.buildSubformItem(this.widget.columns[0].list);
         break;
       default:
         // 其余的简单model
-        let defaultVal = '';
-        if (this.widget.type === 'checkbox' || this.widget.options.multiple) {
+        let defaultVal = cloneDeep(this.widget.options.defaultValue) || '';
+        if (this.widget.options.multiple && !(defaultVal instanceof Array)) {
           defaultVal = []
         }
 
@@ -394,28 +392,25 @@ export default {
         this.setModelIfNotExist(this.models, model, defaultVal);
     }
   },
-  watch: {
-    // 这里是为了在基本元素修改后同步到models中
-    dataModel: {
-      deep: true,
-      handler(val) {
-        this.models[this.widget.model] = val
-        this.$emit('input-change', val, this.widget.model)
-      }
-    },
-    models: {
-      deep: true,
-      immediate: true,
-      handler(newModel) {
-        let newVal = newModel[this.widget.model];
-        if ((newVal instanceof Array && !newVal.length) || newVal) {
-          if (this.dataModel !== newModel[this.widget.model]) {
-            this.dataModel = newModel[this.widget.model];
-            console.log('set dataModel', this.widget.model, newModel[this.widget.model]);
-          }
+  mounted() {
+    if (this.models && this.modelKey in this.models) {
+      let inputVal = this.models[this.modelKey];
+      if ((inputVal instanceof Array && !inputVal.length) || inputVal) {
+        if (this.dataModel !== inputVal) {
+          this.dataModel = inputVal;
+          console.log('set dataModel', this.modelKey, inputVal);
         }
-      },
+      }
     }
-  }
+
+    this.$watch('dataModel', (val) => {
+      let modelKey = this.modelKey;
+      this.models[modelKey] = val
+      this.$emit('input-change', val, modelKey)
+      console.log('form-item changed', modelKey, val)
+    }, {deep: true})
+
+    console.log('item mounted', this.modelKey)
+  },
 }
 </script>

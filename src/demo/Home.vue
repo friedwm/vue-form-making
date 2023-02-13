@@ -1,15 +1,19 @@
 <template>
-  <fm-making-form ref="makingForm" @updated-widget-form="widgetFormUpdated" v-if="e"
+  <div style="height:1000px;">
+    <!--  <fm-making-form ref="makingForm" @updated-widget-form="widgetFormUpdated"
                   :exist-widget-form="e"
                   upload preview generate-code generate-json clearable>
     <template slot="action">
     </template>
-  </fm-making-form>
+  </fm-making-form>-->
+    <el-button @click="reset">重填</el-button>
+    <el-button @click="getData">获取数据</el-button>
+    <fm-generate-form style="height:1000px;" ref="generateForm" insite="true"
+                      :widgetForm="widgetForm"
+                      :widgetModels="widgetModels" @on-change="changed">
+    </fm-generate-form>
+  </div>
 
-  <!--    <fm-generate-form style="height:1000px;" ref="generateForm" insite="true"-->
-  <!--                      :widgetForm="widgetForm"-->
-  <!--                      :widgetModels="widgetModels">-->
-  <!--    </fm-generate-form>-->
 </template>
 
 <script>
@@ -28,10 +32,22 @@ export default {
       widgetModels: {}
     };
   },
-  mounted() {
+  created() {
     this.loadData();
   },
   methods: {
+    reset() {
+      this.$refs.generateForm.reset();
+    },
+    async getData() {
+      let data = await this.$refs.generateForm.getData();
+      this.$alert(data, '标题名称', {
+        confirmButtonText: '确定',
+      });
+    },
+    changed(val) {
+      console.log('data changed to', val)
+    },
     widgetFormUpdated() {
       console.log('widgetFormUpdated')
     },
