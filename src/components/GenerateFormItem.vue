@@ -26,7 +26,8 @@
                           :path="path + widget.model+ '.'"
                           :key="i"
                           :widget="el"
-                          :models="models[widget.model]">
+                          :models="models[widget.model]"
+      >
       </generate-form-item>
     </template>
     <template v-if="widgetTypeIs('subform')">
@@ -48,7 +49,8 @@
                             :path="path + widget.model + '.' + subItemIndex + '.' "
                             :key="i"
                             :widget="el"
-                            :models="subItem">
+                            :models="subItem"
+        >
         </generate-form-item>
       </div>
       <el-button type="text" icon="el-icon-plus" @click.stop="addSubItem()">添加</el-button>
@@ -282,7 +284,6 @@ export default {
   },
   data() {
     return {
-      ready: false,
       dataModel: this.defaultValueOfWidget(),
       addingModel: {},
     };
@@ -346,6 +347,37 @@ export default {
     currentPath() {
       return this.path + this.widget.model;
     },
+    existVal() {
+      let widgetType = this.widgetType;
+      switch (widgetType) {
+        case 'grid':
+        case 'group':
+        case 'subform':
+          return '';
+        default:
+          return this.models[this.widget.model];
+      }
+    },
+  },
+  watch: {
+    models: {
+      deep: true,
+      handler(newModel) {
+        let newModelVal = newModel[this.widget.model];
+        if (newModel && this.dataModel
+            !== newModelVal) {
+          this.dataModel = cloneDeep(newModelVal);
+        }
+      }
+    },
+    dataModel: {
+      deep: true,
+      handler(val) {
+        let modelKey = this.modelKey;
+        this.models[modelKey] = val
+        this.$emit('input-change', val, modelKey)
+      }
+    },
   },
   created() {
     if (this.widget.options.remote && this.remote[this.widget.options.remoteFunc]) {
@@ -389,28 +421,8 @@ export default {
           defaultVal = cloneDeep(this.widget.options.defaultValue)
         }
         this.dataModel = defaultVal;
-        this.setModelIfNotExist(this.models, model, defaultVal);
+        this.setModelIfNotExist(this.models, this.widget.model, defaultVal);
     }
-  },
-  mounted() {
-    if (this.models && this.modelKey in this.models) {
-      let inputVal = this.models[this.modelKey];
-      if ((inputVal instanceof Array && !inputVal.length) || inputVal) {
-        if (this.dataModel !== inputVal) {
-          this.dataModel = inputVal;
-          console.log('set dataModel', this.modelKey, inputVal);
-        }
-      }
-    }
-
-    this.$watch('dataModel', (val) => {
-      let modelKey = this.modelKey;
-      this.models[modelKey] = val
-      this.$emit('input-change', val, modelKey)
-      console.log('form-item changed', modelKey, val)
-    }, {deep: true})
-
-    console.log('item mounted', this.modelKey)
-  },
+  }
 }
 </script>
