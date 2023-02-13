@@ -73,6 +73,7 @@ export default {
   watch: {
     widgetModels: {
       deep: true,
+      immediate: true,
       handler(newVal) {
         this.models = this.maintainModels(this.widgetForm.list, this.models, newVal);
         console.log('form models changed', newVal)
