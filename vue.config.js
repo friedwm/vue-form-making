@@ -10,7 +10,7 @@ module.exports = {
           compress: {
             warnings: false,
             drop_debugger: false,
-            drop_console: true,
+            drop_console: false,
           },
         },
         sourceMap: false,

@@ -364,9 +364,10 @@ export default {
       deep: true,
       handler(newModel) {
         let newModelVal = newModel[this.widget.model];
+        console.log('models changed', newModel, newModelVal)
         if (newModel && this.dataModel
             !== newModelVal) {
-          this.dataModel = cloneDeep(newModelVal);
+          this.dataModel = newModelVal
         }
       }
     },
@@ -375,11 +376,13 @@ export default {
       handler(val) {
         let modelKey = this.modelKey;
         this.models[modelKey] = val
+        console.log('item models changed to', this.models, modelKey, val)
         this.$emit('input-change', val, modelKey)
       }
     },
   },
   created() {
+    console.log('form item creating', this.widget.model)
     if (this.widget.options.remote && this.remote[this.widget.options.remoteFunc]) {
       this.remote[this.widget.options.remoteFunc]((data) => {
         this.widget.options.remoteOptions = data.map(item => {
@@ -423,6 +426,11 @@ export default {
         this.dataModel = defaultVal;
         this.setModelIfNotExist(this.models, this.widget.model, defaultVal);
     }
+
+    console.log('form item created', this.widget.model)
+  },
+  mounted() {
+    console.log('form item mounted', this.widget.model)
   }
 }
 </script>

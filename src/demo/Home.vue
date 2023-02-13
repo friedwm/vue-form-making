@@ -1,17 +1,17 @@
 <template>
   <div style="height:1000px;">
-    <!--    <fm-making-form ref="makingForm" @updated-widget-form="widgetFormUpdated"
-                        :exist-widget-form="e"
-                        upload preview generate-code generate-json clearable>
-          <template slot="action">
-          </template>
-        </fm-making-form>-->
-        <el-button @click="reset">重填</el-button>
+    <fm-making-form ref="makingForm" @updated-widget-form="widgetFormUpdated"
+                    :exist-widget-form="e"
+                    upload preview generate-code generate-json clearable>
+      <template slot="action">
+      </template>
+    </fm-making-form>
+<!--        <el-button @click="reset">重填</el-button>
         <el-button @click="getData">获取数据</el-button>
         <fm-generate-form style="height:1000px;" ref="generateForm" insite="true"
                           :widgetForm="widgetForm"
                           :widgetModels="widgetModels" @on-change="changed">
-        </fm-generate-form>
+        </fm-generate-form>-->
   </div>
 
 </template>
@@ -57,7 +57,7 @@ export default {
         this.widgetModels = JSON.parse(
             '{"input_h759qgqi":"abcabcc","textarea_7uwoc6vf":"sdfasasdfasf","input_x1uwel0d":"asdfasfasfsdfaf","radio_d7o0hmok":"Option 3 Value","group_rlie9q5k":{"date_iat8hmed":"2023-02-07","number_tokb5ydp":14,"textarea_44yamjut":"sadfasfasfasf"}}');
         console.log('async got widgetModels')
-      }, 500);
+      }, 3000);
     },
   },
   mounted() {

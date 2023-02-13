@@ -23,7 +23,6 @@
 
 <script>
 import GenerateFormItem from './GenerateFormItem'
-import {cloneDeep} from "lodash";
 
 export default {
   name: 'fm-generate-form',
@@ -68,17 +67,24 @@ export default {
       this.$emit('on-change', field, value, this.models)
     },
     maintainModels(widgets, modelStructure, models) {
-      console.log('modelStructure', modelStructure);
-      console.log('models', models);
-      return cloneDeep(models);
+      return models;
     },
   },
   watch: {
-    widgetModels() {
-      let existModels = cloneDeep(this.widgetModels);
-      this.models = this.maintainModels(this.widgetForm.list, this.models, existModels);
+    widgetModels: {
+      deep: true,
+      handler(newVal) {
+        this.models = this.maintainModels(this.widgetForm.list, this.models, newVal);
+        console.log('form models changed', newVal)
+      },
     },
   },
+  created() {
+    console.log('generate form created')
+  },
+  mounted() {
+    console.log('generate form mounted')
+  }
 }
 </script>
 
