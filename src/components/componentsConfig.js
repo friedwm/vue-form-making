@@ -261,13 +261,13 @@ export const advanceComponents = [
       token: '',
       domain: '',
       disabled: false,
-      length: 8,
+      length: 1,
       multiple: false,
       isQiniu: false,
       isDelete: false,
-      min: 0,
-      isEdit: false,
-      action: ''
+      min: 1,
+      isEdit: true,
+      action: '/common/uploadFile.json'
     }
   },
   {
