@@ -283,8 +283,10 @@ export default {
     FmUpload
   },
   data() {
+    let initDataModel = this.models[this.widget.model]
+    console.log('item init val', this.widget.model, this.models, initDataModel);
     return {
-      dataModel: this.defaultValueOfWidget(),
+      dataModel: initDataModel,
       addingModel: {},
     };
   },
@@ -348,26 +350,28 @@ export default {
       return this.path + this.widget.model;
     },
     existVal() {
+      let exist = '';
       let widgetType = this.widgetType;
       switch (widgetType) {
         case 'grid':
         case 'group':
         case 'subform':
-          return '';
+          exist = '';
+          break;
         default:
-          return this.models[this.widget.model];
+          exist = this.models[this.widget.model];
+          break;
       }
+      console.log('existVal', this.widget.model, this.models, exist);
+      return exist;
     },
   },
   watch: {
-    models: {
+    existVal: {
       deep: true,
-      handler(newModel) {
-        let newModelVal = newModel[this.widget.model];
-        console.log('models changed', newModel, newModelVal)
-        if (newModel && this.dataModel
-            !== newModelVal) {
-          this.dataModel = newModelVal
+      handler(newVal) {
+        if (newVal !== this.dataModel) {
+          this.dataModel = newVal;
         }
       }
     },
@@ -420,7 +424,6 @@ export default {
           defaultVal = []
         }
 
-        this.dataModel = defaultVal;
         this.setModelIfNotExist(this.models, this.widget.model, defaultVal);
     }
 

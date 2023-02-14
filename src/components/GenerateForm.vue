@@ -23,6 +23,7 @@
 
 <script>
 import GenerateFormItem from './GenerateFormItem'
+import {cloneDeep} from "lodash";
 
 export default {
   name: 'fm-generate-form',
@@ -32,7 +33,7 @@ export default {
   props: ['widgetForm', 'remote', 'widgetModels'],
   data() {
     return {
-      models: {},
+      models: cloneDeep(this.widgetModels),
       rules: {},
     }
   },
@@ -73,10 +74,9 @@ export default {
   watch: {
     widgetModels: {
       deep: true,
-      immediate: true,
       handler(newVal) {
         this.models = this.maintainModels(this.widgetForm.list, this.models, newVal);
-        console.log('form models changed', newVal)
+        console.log('form models changed 4', newVal)
       },
     },
   },
