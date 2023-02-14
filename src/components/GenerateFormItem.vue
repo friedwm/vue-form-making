@@ -305,7 +305,10 @@ export default {
     },
     addSubItem() {
       let subItem = cloneDeep(this.addingModel);
-      this.models[this.widget.model].push(subItem)
+      if (!this.models[this.widget.model]) {
+        this.models[this.widget.model] = []
+      }
+      this.models[this.widget.model].push(subItem);
     },
     buildSubformItem(subwidgetList) {
       let subItem = {};
