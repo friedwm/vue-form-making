@@ -338,7 +338,11 @@ export default {
     },
     setModelIfNotExist(models, model, val) {
       if (!(model in models)) {
+        console.log('model not in models', model, models, val)
         this.$set(models, model, val)
+      } else if (Object.getPrototypeOf(models[model]) !== Object.getPrototypeOf(val)) {
+        console.log('model type invalid', model, val)
+        this.$set(models, model, val);
       }
     },
     addSubItem() {
@@ -395,9 +399,13 @@ export default {
       let widgetType = this.widgetType;
       switch (widgetType) {
         case 'grid':
-        case 'group':
-        case 'subform':
           exist = '';
+          break;
+        case 'group':
+          exist = {}
+          break;
+        case 'subform':
+          exist = []
           break;
         default:
           exist = this.models[this.widget.model];
