@@ -501,4 +501,13 @@ $primary-background-color: #ecf5ff;
 
     }
   }
+
+  .textarray {
+    padding: 5px;
+
+    .textarray-input {
+      width: 90%;
+      margin-right: 10px;
+    }
+  }
 }

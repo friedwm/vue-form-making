@@ -77,6 +77,44 @@
       ></el-input>
     </template>
 
+    <template v-if="widgetTypeIs('textarray')">
+      <el-button type="text" icon="el-icon-plus"
+                 @click.stop="dataModel.push('')">添加
+      </el-button>
+      <template v-for="(item,i) in dataModel">
+        <div :key="i" class="textarray">
+          <el-input
+              class="textarray-input"
+              v-if="widget.options.dataType === 'number' || widget.options.dataType === 'integer' || widget.options.dataType === 'float'"
+              type="number"
+              v-model.number="dataModel[i]"
+              :placeholder="widget.options.placeholder"
+              :style="{width: widget.options.width}"
+              :disabled="widget.options.disabled"
+          >
+            <el-button slot="append" icon="el-icon-delete"
+                       @click="dataModel.splice(i,1)"></el-button>
+          </el-input>
+          <el-input
+              v-else
+              class="textarray-input"
+              type="text"
+              v-model="dataModel[i]"
+              :disabled="widget.options.disabled"
+              :placeholder="widget.options.placeholder"
+              :style="{width: widget.options.width}"
+              :maxlength="widget.options.maxlength"
+              :show-word-limit="widget.options.showWordLimit"
+              :clearable="widget.options.clearable"
+          >
+            <el-button slot="append" icon="el-icon-delete"
+                       @click="dataModel.splice(i,1)"></el-button>
+          </el-input>
+        </div>
+      </template>
+
+    </template>
+
     <template v-if="widgetTypeIs('textarea')">
       <el-input type="textarea" :rows="5"
                 v-model="dataModel"

@@ -25,7 +25,8 @@ export default {
         tabs: '标签页',
         divider: '分割线',
         group: '子对象',
-        subform: '子数组'
+        subform: '子数组',
+        textarray: '文本数组'
       },
       basic: {
         title: '基础字段',

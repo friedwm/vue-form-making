@@ -348,7 +348,24 @@ export const advanceComponents = [
       subform: true,
       hideLabel: false
     },
+  },
+  {
+    type: "textarray",
+    icon: "icon-diy-com-textarea",
+    options: {
+      defaultValue: [],
+      width: '100%',
+      required: false,
+      dataType: 'string',
+      pattern: '',
+      placeholder: '',
+      disabled: false,
+      maxlength: 100,
+      showWordLimit: false,
+      clearable: true
+    },
   }
+
 ]
 
 export const layoutComponents = [

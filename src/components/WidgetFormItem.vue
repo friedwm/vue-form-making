@@ -235,6 +235,24 @@
         <template v-if="element.type === 'text'">
           <span>{{ element.options.defaultValue }}</span>
         </template>
+
+        <template v-if="element.type === 'textarray'">
+          <el-button type="text" icon="el-icon-plus"
+                     @click.stop="element.options.defaultValue.push('')">添加
+          </el-button>
+          <template v-for="(item,i) in element.options.defaultValue">
+            <div :key="i" class="textarray">
+              <el-input class="textarray-input" v-model="element.options.defaultValue[i]"
+                        :style="{width: element.options.width}"
+                        :placeholder="element.options.placeholder"
+                        :disabled="element.options.disabled"
+                        :maxlength="element.options.maxlength"
+                        :show-word-limit="element.options.showWordLimit">
+                <el-button slot="append" icon="el-icon-delete" @click="element.options.defaultValue.splice(i,1)"></el-button>
+              </el-input>
+            </div>
+          </template>
+        </template>
       </el-form-item>
     </template>
     <div class="widget-view-type">

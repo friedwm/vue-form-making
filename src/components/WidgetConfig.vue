@@ -220,11 +220,11 @@
       </el-form-item>
 
       <el-form-item :label="$t('fm.config.widget.maxlength')"
-                    v-if="(data.type == 'textarea' || data.type == 'input')">
+                    v-if="(data.type == 'textarea' || data.type == 'input'||data.type == 'textarray')">
         <el-input-number v-model="data.options.maxlength" :min="-1"></el-input-number>
       </el-form-item>
       <el-form-item :label="$t('fm.config.widget.showWordLimit')"
-                    v-if="(data.type == 'textarea' || data.type == 'input')">
+                    v-if="(data.type == 'textarea' || data.type == 'input' || data.type == 'textarray')">
         <el-switch v-model="data.options.showWordLimit"></el-switch>
       </el-form-item>
 
@@ -512,9 +512,9 @@ export default {
       })
     },
     generateRule() {
+      console.log('data.type', this.data.type)
 
-      // this.data.rules = [];
-      let newRules = []
+      let newRules = [];
       Object.keys(this.validator).forEach(key => {
         if (this.validator[key]) {
           newRules.push(this.validator[key])
@@ -562,14 +562,25 @@ export default {
       if (!this.show) {
         return false
       }
+      let innerDataType = val;
+      let isTextArray = this.data.type === 'textarray';
+      if (isTextArray) {
+        val = 'array';
+      }
 
       if (val) {
-        this.validator.type = {
+        let type = {
           type: val,
           message: this.data.name + this.$t('fm.config.widget.validatorType')
+        };
+
+        if (isTextArray) {
+          type = {...type, defaultField: {type: innerDataType}, required: this.data.options.required}
         }
+
+        this.validator.type = type;
       } else {
-        this.validator.type = null
+        this.validator.type = null;
       }
 
       this.generateRule()
