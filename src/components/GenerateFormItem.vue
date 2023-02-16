@@ -322,7 +322,7 @@ export default {
   },
   data() {
     let initDataModel = this.models[this.widget.model]
-    console.log('item init val', this.widget.model, this.models, initDataModel);
+    // console.log('item init val', this.widget.model, this.models, initDataModel);
     return {
       dataModel: initDataModel,
       addingModel: {},
@@ -336,13 +336,27 @@ export default {
       }
       return def
     },
+    isArray(arr) {
+      const toString = Object.prototype.toString
+      const isArray = Array.isArray || function (arg) {
+        return toString.call(arg) === '[object Array]'
+      }
+      return isArray(arr)
+    },
     setModelIfNotExist(models, model, val) {
+      console.log(
+          `check model="${model}", existVal="${JSON.stringify(models[model])}", initVal="${JSON.stringify(val)}", typeofExist="${typeof models[model]}", existIsArray=${this.isArray(
+              models[model])}, initValIsArray=${this.isArray(val)}`);
       if (!(model in models)) {
         console.log('model not in models', model, models, val)
         this.$set(models, model, val)
-      } else if (Object.getPrototypeOf(models[model]) !== Object.getPrototypeOf(val)) {
-        console.log('model type invalid', model, val)
-        this.$set(models, model, val);
+        return;
+      }
+
+      if ((models[model]) === '' && this.isArray(val)) {
+        console.log('model type invalid', model, val, Object.getPrototypeOf(models[model]),
+            Object.getPrototypeOf(val))
+        this.$set(models, model, val)
       }
     },
     addSubItem() {
@@ -411,7 +425,7 @@ export default {
           exist = this.models[this.widget.model];
           break;
       }
-      console.log('existVal', this.widget.model, this.models, exist);
+      // console.log('existVal', this.widget.model, this.models, exist);
       return exist;
     },
   },
@@ -435,7 +449,7 @@ export default {
     },
   },
   created() {
-    console.log('form item creating', this.widget.model)
+    // console.log('form item creating', this.widget.model)
     if (this.widget.options.remote && this.remote[this.widget.options.remoteFunc]) {
       this.remote[this.widget.options.remoteFunc]((data) => {
         this.widget.options.remoteOptions = data.map(item => {
@@ -476,10 +490,10 @@ export default {
         this.setModelIfNotExist(this.models, this.widget.model, defaultVal);
     }
 
-    console.log('form item created', this.widget.model)
+    // console.log('form item created', this.widget.model)
   },
   mounted() {
-    console.log('form item mounted', this.widget.model)
+    // console.log('form item mounted', this.widget.model)
   }
 }
 </script>
